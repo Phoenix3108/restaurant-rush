@@ -81,47 +81,56 @@ public class Customer {
 
     /**
      * The customer picks their own dish (the manager never chooses).
-     * Must be deterministic or seeded random, and documented in the README.
+     * Documented rule: customers cycle through the menu by ID, so
+     * #1 Salad, #2 Burger, #3 Pasta, #4 Salad, #5 Burger, #6 Pasta.
+     * Deterministic, so every run of the base setting is reproducible.
      */
     public MenuItem chooseMenuItem(Menu menu) {
-        // TODO(Part 2): e.g. menu.getItem((id - 1) % menu.size()), document the rule
-        throw new UnsupportedOperationException("TODO Part 2: Customer.chooseMenuItem");
+        return menu.getItem((id - 1) % menu.size());
     }
 
     // ---------- state changes ----------
 
     /** True while WAITING, SEATED or ORDERED (not served yet). */
     public boolean isLosingSatisfaction() {
-        // TODO(Part 2)
-        throw new UnsupportedOperationException("TODO Part 2: Customer.isLosingSatisfaction");
+        return state == CustomerState.WAITING
+                || state == CustomerState.SEATED
+                || state == CustomerState.ORDERED;
     }
 
     /**
      * Step 5: lose getSatisfactionLossPerTurn() points (minimum 0) if not served yet.
+     * Uses the overridable loss rate, so Stage 2 VIP/Critic need no changes here.
      *
      * @return true if satisfaction reached 0, so the customer must leave
      */
     public boolean applyWaitingPenalty() {
-        // TODO(Part 2)
-        throw new UnsupportedOperationException("TODO Part 2: Customer.applyWaitingPenalty");
+        if (!isLosingSatisfaction()) {
+            return false;
+        }
+        satisfaction = Math.max(0, satisfaction - getSatisfactionLossPerTurn());
+        return satisfaction == 0;
     }
 
     /** WAITING -> SEATED at the given table. */
     public void seatAt(Table table) {
-        // TODO(Part 2)
-        throw new UnsupportedOperationException("TODO Part 2: Customer.seatAt");
+        requireState(CustomerState.WAITING, "be seated");
+        this.table = table;
+        this.state = CustomerState.SEATED;
     }
 
     /** SEATED -> ORDERED with the given order. */
     public void placeOrder(Order order) {
-        // TODO(Part 2)
-        throw new UnsupportedOperationException("TODO Part 2: Customer.placeOrder");
+        requireState(CustomerState.SEATED, "place an order");
+        this.order = order;
+        this.state = CustomerState.ORDERED;
     }
 
     /** ORDERED -> EATING. Remember the turn so eating takes one full turn. */
     public void serve(int currentTurn) {
-        // TODO(Part 2)
-        throw new UnsupportedOperationException("TODO Part 2: Customer.serve");
+        requireState(CustomerState.ORDERED, "be served");
+        this.servedTurn = currentTurn;
+        this.state = CustomerState.EATING;
     }
 
     /**
@@ -130,26 +139,45 @@ public class Customer {
      * @return true if the customer became READY_TO_PAY this call
      */
     public boolean finishEatingIfDone(int currentTurn) {
-        // TODO(Part 2): EATING && servedTurn < currentTurn -> READY_TO_PAY, readyToPayTurn = currentTurn
-        throw new UnsupportedOperationException("TODO Part 2: Customer.finishEatingIfDone");
+        if (state == CustomerState.EATING && servedTurn < currentTurn) {
+            state = CustomerState.READY_TO_PAY;
+            readyToPayTurn = currentTurn;
+            return true;
+        }
+        return false;
     }
 
     /** READY_TO_PAY on an EARLIER turn, so the Cashier may charge them this turn. */
     public boolean canPay(int currentTurn) {
-        // TODO(Part 2): state == READY_TO_PAY && readyToPayTurn < currentTurn
-        throw new UnsupportedOperationException("TODO Part 2: Customer.canPay");
+        return state == CustomerState.READY_TO_PAY && readyToPayTurn < currentTurn;
     }
 
     /** READY_TO_PAY -> PAID. Satisfaction stays at its current value (it is the recorded score). */
     public void markPaid() {
-        // TODO(Part 2)
-        throw new UnsupportedOperationException("TODO Part 2: Customer.markPaid");
+        requireState(CustomerState.READY_TO_PAY, "pay");
+        this.state = CustomerState.PAID;
     }
 
     /** -> LEFT. Cancel any unfinished order and free the table. */
     public void leave() {
-        // TODO(Part 2): state = LEFT; if order not served -> order.cancel(); if table != null -> table.release()
-        throw new UnsupportedOperationException("TODO Part 2: Customer.leave");
+        if (!isLosingSatisfaction()) {
+            throw new IllegalStateException(this + " cannot leave: already served or gone");
+        }
+        state = CustomerState.LEFT;
+        if (order != null) {
+            order.cancel();      // only ORDERED customers have one, and it is not served yet
+        }
+        if (table != null) {
+            table.release();
+        }
+    }
+
+    /** Guards every state change so a wrong call fails loudly instead of corrupting the game. */
+    private void requireState(CustomerState expected, String action) {
+        if (state != expected) {
+            throw new IllegalStateException(
+                    this + " cannot " + action + " (must be " + expected + ")");
+        }
     }
 
     @Override
