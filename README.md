@@ -26,10 +26,10 @@ java -cp out restaurant.Main
 
 | Part | Package / files | Owner |
 |---|---|---|
-| 1 Menu & Orders | `restaurant.menu`: `MenuItem`, `Menu`, `Order`, `OrderStatus`, `Money` | TBD |
-| 2 Customers | `restaurant.customer`: `Customer`, `CustomerState`, `WaitingQueue` | TBD |
-| 3 Staff & Tables | `restaurant.staff`: `Staff`, `Waiter`, `Chef`, `Cashier`, `ActionResult`; `restaurant.floor`: `Table` | TBD |
-| 4 Game loop & CLI | `restaurant.game`: `GameController`, `Restaurant`, `GameConfig`; `restaurant.ui`: `ConsoleUI` | TBD |
+| 1 Menu & Orders | `restaurant.menu`: `MenuItem`, `Menu`, `Order`, `OrderStatus`, `Money` | Guru |
+| 2 Customers | `restaurant.customer`: `Customer`, `CustomerState`, `WaitingQueue` | Ram |
+| 3 Staff & Tables | `restaurant.staff`: `Staff`, `Waiter`, `Chef`, `Cashier`, `ActionResult`; `restaurant.floor`: `Table` | Dylan |
+| 4 Game loop & CLI | `restaurant.game`: `GameController`, `Restaurant`, `GameConfig`; `restaurant.ui`: `ConsoleUI` | Ani |
 
 Each method you own is marked `// TODO(Part N)`. Search the code for your part number.
 **Don't rename or change the signature of a method someone else calls** without telling the group first.
@@ -65,7 +65,7 @@ git push origin stage-1
 
 ## Documented rules
 
-- Food choice rule: TODO (Part 2)
+- Food choice rule: customers cycle through the menu by ID: #1 Salad, #2 Burger, #3 Pasta, #4 Salad, #5 Burger, #6 Pasta.
 - Display order: the turn display is shown after step 1 (arrivals) so the manager can see the new customer before choosing.
 
 ## Stage comparisons
