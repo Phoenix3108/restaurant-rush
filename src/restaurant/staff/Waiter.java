@@ -1,10 +1,13 @@
 package restaurant.staff;
 
 import restaurant.customer.Customer;
+import restaurant.customer.CustomerState;
 import restaurant.customer.WaitingQueue;
 import restaurant.floor.Table;
 import restaurant.menu.Menu;
+import restaurant.menu.MenuItem;
 import restaurant.menu.Order;
+import restaurant.menu.Money;
 
 /**
  * Does at most ONE of these per turn: seat, take order, or serve.
@@ -28,8 +31,23 @@ public class Waiter extends Staff {
      * On success: remove from queue, table.assign(customer), customer.seatAt(table).
      */
     public ActionResult seat(Customer customer, Table table, WaitingQueue queue) {
-        // TODO(Part 3)
-        throw new UnsupportedOperationException("TODO Part 3: Waiter.seat");
+        if (hasActedThisTurn()){
+            return ActionResult.fail("Waiter has already acted this turn");
+        }
+        if (customer==null || table==null){
+            return ActionResult.fail("Must choose a customer and table");
+        }        
+        if (!queue.contains(customer)){
+            return ActionResult.fail("Customer #" + customer.getId() + " is not in queue");
+        }
+        if (!table.isFree()){
+            return ActionResult.fail("Table " + table.getId() + " is already occupied by Customer #" + table.getOccupant().getId());
+        }
+        queue.remove(customer);
+        table.assign(customer);
+        customer.seatAt(table);
+        markActed();
+        return ActionResult.ok("Waiter seated Customer #" + customer.getId() + " at Table " + table.getId());
     }
 
     /**
@@ -42,8 +60,21 @@ public class Waiter extends Staff {
      *             message should show the dish, e.g. "Customer #2 orders Pasta ($18.00)".
      */
     public ActionResult takeOrder(Customer customer, Menu menu, int currentTurn) {
-        // TODO(Part 3)
-        throw new UnsupportedOperationException("TODO Part 3: Waiter.takeOrder");
+        if (hasActedThisTurn()){
+            return ActionResult.fail("Waiter has already acted this turn");
+        }
+        if (customer==null){
+            return ActionResult.fail("Must choose a customer");
+        }      
+        if (customer.getState()!=CustomerState.SEATED){
+            return ActionResult.fail("Customer #" + customer.getId() + " cannot order because the customer is " + customer.getState() + " not SEATED");
+        }
+        MenuItem item = customer.chooseMenuItem(menu);
+        int bill = customer.computeBillCents(item);
+        Order order = new Order(customer, item, bill, currentTurn);
+        customer.placeOrder(order);
+        markActed();
+        return ActionResult.ok("Customer #" + customer.getId() + " orders " + item.getName() + " (" + Money.format(bill) + ")");
     }
 
     /**
@@ -52,7 +83,18 @@ public class Waiter extends Staff {
      * On success: order.markServed(); order.getCustomer().serve(currentTurn).
      */
     public ActionResult serve(Order order, int currentTurn) {
-        // TODO(Part 3)
-        throw new UnsupportedOperationException("TODO Part 3: Waiter.serve");
+        if (hasActedThisTurn()){
+            return ActionResult.fail("Waiter has already acted this turn");
+        }
+        if (order==null){
+            return ActionResult.fail("Must choose an order");
+        }  
+        if (!order.isReady()){
+            return ActionResult.fail("Order #" + order.getId() + " is " + order.getStatus() + ", not ready");
+        }
+        order.markServed();
+        order.getCustomer().serve(currentTurn);
+        markActed();
+        return ActionResult.ok("Waiter served " + order.getItem().getName() + " to Customer #" + order.getCustomer().getId());
     }
 }
