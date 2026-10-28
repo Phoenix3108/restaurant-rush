@@ -73,26 +73,47 @@ public class Order {
      * @throws IllegalStateException if the order is not IN_PREPARATION
      */
     public boolean advancePreparation() {
-        // TODO(Part 1): unitsDone++, switch to READY when no units remain
-        throw new UnsupportedOperationException("TODO Part 1: Order.advancePreparation");
+        if (status != OrderStatus.IN_PREPARATION) {
+            throw new IllegalStateException(
+                    "Order must be in preparation before advancing.");
+        }
+
+        unitsDone++;
+
+        if (unitsDone == item.getPrepUnits()) {
+            status = OrderStatus.READY;
+            return true;
+        }
+
+        return false;
     }
 
-    /** READY -> SERVED. Throws IllegalStateException otherwise. */
     public void markServed() {
-        // TODO(Part 1)
-        throw new UnsupportedOperationException("TODO Part 1: Order.markServed");
+        if (status != OrderStatus.READY) {
+            throw new IllegalStateException(
+                    "Order must be READY before it can be served.");
+        }
+
+        status = OrderStatus.SERVED;
     }
 
-    /** SERVED -> PAID. Throws IllegalStateException otherwise. */
     public void markPaid() {
-        // TODO(Part 1)
-        throw new UnsupportedOperationException("TODO Part 1: Order.markPaid");
+        if (status != OrderStatus.SERVED) {
+            throw new IllegalStateException(
+                    "Order must be SERVED before payment.");
+        }
+
+        status = OrderStatus.PAID;
     }
 
-    /** IN_PREPARATION or READY -> CANCELLED (customer left). */
     public void cancel() {
-        // TODO(Part 1)
-        throw new UnsupportedOperationException("TODO Part 1: Order.cancel");
+        if (status != OrderStatus.IN_PREPARATION
+                && status != OrderStatus.READY) {
+            throw new IllegalStateException(
+                    "Only orders being prepared or ready can be cancelled.");
+        }
+
+        status = OrderStatus.CANCELLED;
     }
 
     @Override
