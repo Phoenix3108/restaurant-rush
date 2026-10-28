@@ -26,7 +26,28 @@ public class Cashier extends Staff {
      * @return the customer who paid, or null if nobody could pay this turn
      */
     public Customer collectPayment(List<Customer> customers, int currentTurn) {
-        // TODO(Part 3)
-        throw new UnsupportedOperationException("TODO Part 3: Cashier.collectPayment");
+        if (hasActedThisTurn()){
+            return null;
+        }
+        Customer oldest = null;
+        for (Customer c : customers){
+            if (!c.canPay(currentTurn)){
+                continue;
+            }
+            if (oldest==null||c.getReadyToPayTurn()<oldest.getReadyToPayTurn()){
+                oldest = c;
+            }
+            else if (c.getReadyToPayTurn()==oldest.getReadyToPayTurn()&&c.getId()<oldest.getId()){
+                oldest = c;
+            }
+        }
+        if (oldest==null){
+            return null;
+        }
+        oldest.getOrder().markPaid();
+        oldest.markPaid();
+        oldest.getTable().release();
+        markActed();
+        return oldest;
     }
 }

@@ -30,14 +30,18 @@ public class Table {
 
     /** Put a customer at this table. Throws IllegalStateException if already occupied. */
     public void assign(Customer customer) {
-        // TODO(Part 3)
-        throw new UnsupportedOperationException("TODO Part 3: Table.assign");
+        if (customer==null){
+            throw new IllegalArgumentException("Customer must not be null");
+        }
+        if (!isFree()){
+            throw new IllegalStateException("Table " + id + " is already occupied by Customer #" + occupant.getId());
+        }
+            occupant = customer;
     }
 
     /** Free the table (customer paid or left). */
     public void release() {
-        // TODO(Part 3)
-        throw new UnsupportedOperationException("TODO Part 3: Table.release");
+        occupant = null;
     }
 
     @Override
