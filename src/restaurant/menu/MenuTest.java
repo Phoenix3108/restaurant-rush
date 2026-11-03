@@ -1,17 +1,18 @@
 package restaurant.menu;
 
+import java.util.List;
+
 public class MenuTest {
 
     private static int passed = 0;
     private static int failed = 0;
 
     public static void main(String[] args) {
+
         Menu menu = Menu.standardMenu();
 
-        // Test menu size
         check(menu.size() == 3, "Menu contains three items");
 
-        // Test item names
         check(menu.getItem(0).getName().equals("Salad"),
                 "First item is Salad");
 
@@ -21,7 +22,6 @@ public class MenuTest {
         check(menu.getItem(2).getName().equals("Pasta"),
                 "Third item is Pasta");
 
-        // Test prices in cents
         check(menu.getItem(0).getPriceCents() == 900,
                 "Salad costs $9.00");
 
@@ -31,7 +31,6 @@ public class MenuTest {
         check(menu.getItem(2).getPriceCents() == 1800,
                 "Pasta costs $18.00");
 
-        // Test preparation units
         check(menu.getItem(0).getPrepUnits() == 1,
                 "Salad needs one prep unit");
 
@@ -41,7 +40,25 @@ public class MenuTest {
         check(menu.getItem(2).getPrepUnits() == 2,
                 "Pasta needs two prep units");
 
-        // Print summary
+        // Stage 2 tests
+        check(menu.getMostExpensive().getName().equals("Pasta"),
+                "Pasta is the most expensive item");
+
+        check(menu.getMostExpensive().getPriceCents() == 1800,
+                "Most expensive item costs $18");
+
+        Menu emptyMenu = new Menu(List.of());
+        boolean exceptionThrown = false;
+
+        try {
+            emptyMenu.getMostExpensive();
+        } catch (IllegalStateException e) {
+            exceptionThrown = true;
+        }
+
+        check(exceptionThrown,
+                "Empty menu throws IllegalStateException");
+
         System.out.println("\n========================");
         System.out.println("Tests passed: " + passed);
         System.out.println("Tests failed: " + failed);
