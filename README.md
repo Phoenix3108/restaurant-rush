@@ -73,7 +73,7 @@ git push origin stage-1
   |---|---|---|---|
   | Regular (`RegularCustomer`) | 8 | Full price | None |
   | VIP (`VIPCustomer`) | 5 | 10% off, rounded to the nearest cent, locked when the order is taken (Burger $13.50) | None |
-  | Critic (`CriticCustomer`) | 12 | Full price | To be documented by Part 3 |
+  | Critic (`CriticCustomer`) | 12 | Full price | Always orders the most expensive item (Pasta on the base menu). When served: +10 satisfaction if served as fast as the kitchen allows (serve turn − turn the order was taken ≤ the dish's preparation units, e.g. Pasta is 2 turns), otherwise −10. Kept within 0–100. A served Critic never leaves, even at 0: they still eat and pay. |
 
 ## Test notes
 
