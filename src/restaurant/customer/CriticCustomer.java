@@ -9,12 +9,12 @@ import restaurant.menu.MenuItem;
  * and reacts to how quickly they were served.
  *
  * Reaction rule (keep in sync with README "Documented rules"):
- *   when served, +10 satisfaction if served as fast as the kitchen allows
- *   (serve turn - order turn <= the dish's preparation units), otherwise -10.
- *   The bonus only goes to a manager who prioritises the Critic's dish
- *   (Pasta on the base menu: 2 turns).
- *   Satisfaction stays within 0..100 (adjustSatisfaction clamps it).
- *   A served Critic never leaves, even at 0 - they still eat and pay.
+ * when served, +10 satisfaction if served as fast as the kitchen allows
+ * (serve turn - order turn <= the dish's preparation units), otherwise -10.
+ * The bonus only goes to a manager who prioritises the Critic's dish
+ * (Pasta on the base menu: 2 turns).
+ * Satisfaction stays within 0..100 (adjustSatisfaction clamps it).
+ * A served Critic never leaves, even at 0 - they still eat and pay.
  *
  * Pays full price, so computeBillCents is NOT overridden.
  *
@@ -22,7 +22,7 @@ import restaurant.menu.MenuItem;
  */
 public class CriticCustomer extends Customer {
 
-private static final int LOSS_PER_TURN = 12;
+    private static final int LOSS_PER_TURN = 12;
     private static final int REACTION_POINTS = 10;
 
     public CriticCustomer(int id, int arrivalTurn) {
