@@ -67,6 +67,13 @@ git push origin stage-1
 
 - Food choice rule: customers cycle through the menu by ID: #1 Salad, #2 Burger, #3 Pasta, #4 Salad, #5 Burger, #6 Pasta.
 - Display order: the turn display is shown after step 1 (arrivals) so the manager can see the new customer before choosing.
+- Customer types (Stage 2), one subclass of the abstract `Customer` each; the controller never checks the type:
+
+  | Type | Satisfaction lost per waiting turn | Bill | Special |
+  |---|---|---|---|
+  | Regular (`RegularCustomer`) | 8 | Full price | None |
+  | VIP (`VIPCustomer`) | 5 | 10% off, rounded to the nearest cent, locked when the order is taken (Burger $13.50) | None |
+  | Critic (`CriticCustomer`) | 12 | Full price | To be documented by Part 3 |
 
 ## Test notes
 

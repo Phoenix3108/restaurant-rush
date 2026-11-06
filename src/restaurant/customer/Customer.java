@@ -6,16 +6,24 @@ import restaurant.menu.MenuItem;
 import restaurant.menu.Order;
 
 /**
- * A restaurant customer. Stage 1 has only regular customers; Stage 2 will add
- * VIP and Critic subclasses that override the satisfaction loss and billing methods,
- * so keep those behaviours in this class (not in the controller).
+ * A restaurant customer. The shared visit (WAITING -> SEATED -> ORDERED -> EATING
+ * -> READY_TO_PAY -> PAID, or LEFT) lives here; each customer type is a subclass that
+ * supplies its own behaviour by overriding a few methods:
+ *
+ *   getTypeLabel()              - "Regular", "VIP", "Critic" (for the display)
+ *   getSatisfactionLossPerTurn() - abstract: every type must say how impatient it is
+ *   computeBillCents(item)       - full price unless overridden (VIP: 10% off)
+ *   chooseMenuItem(menu)         - the documented cycle rule unless overridden
+ *   onServed(turn)               - hook called when the dish arrives (no-op by default)
+ *
+ * The controller and staff only ever call these through a Customer reference,
+ * so they never need to check which type a customer is (brief 4.2).
  *
  * Owner: Part 2
  */
-public class Customer {
+public abstract class Customer {
 
     public static final int MAX_SATISFACTION = 100;
-    private static final int REGULAR_LOSS_PER_TURN = 8;
 
     private final int id;
     private final int arrivalTurn;
@@ -26,7 +34,7 @@ public class Customer {
     private int servedTurn = -1;
     private int readyToPayTurn = -1;
 
-    public Customer(int id, int arrivalTurn) {
+    protected Customer(int id, int arrivalTurn) {
         this.id = id;
         this.arrivalTurn = arrivalTurn;
         this.satisfaction = MAX_SATISFACTION;
@@ -67,16 +75,32 @@ public class Customer {
         return readyToPayTurn;
     }
 
-    // ---------- behaviour that Stage 2 subclasses will override ----------
+    // ---------- behaviour each customer type supplies ----------
 
-    /** Satisfaction lost per waiting turn. Regular = 8 (VIP 5, Critic 12 in Stage 2). */
-    public int getSatisfactionLossPerTurn() {
-        return REGULAR_LOSS_PER_TURN;
-    }
+    /** Short name of this customer type for the display, e.g. "Regular" or "VIP". */
+    public abstract String getTypeLabel();
 
-    /** The bill for this item. Regular pays full price (VIP gets 10% off in Stage 2). */
+    /** Satisfaction lost per waiting turn (Regular 8, VIP 5, Critic 12). */
+    public abstract int getSatisfactionLossPerTurn();
+
+    /** The bill for this item, in cents. Full price unless a type overrides it. */
     public int computeBillCents(MenuItem item) {
         return item.getPriceCents();
+    }
+
+    /**
+     * Called once, right after this customer is served on the given turn.
+     * Does nothing by default; a type that reacts to service (e.g. the Critic) overrides it.
+     */
+    protected void onServed(int currentTurn) {
+    }
+
+    /**
+     * Changes satisfaction by delta, kept between 0 and MAX_SATISFACTION.
+     * For subclasses that react to service (e.g. Critic +10 / -10).
+     */
+    protected final void adjustSatisfaction(int delta) {
+        satisfaction = Math.max(0, Math.min(MAX_SATISFACTION, satisfaction + delta));
     }
 
     /**
@@ -126,11 +150,15 @@ public class Customer {
         this.state = CustomerState.ORDERED;
     }
 
-    /** ORDERED -> EATING. Remember the turn so eating takes one full turn. */
+    /**
+     * ORDERED -> EATING. Remember the turn so eating takes one full turn,
+     * then let the customer type react to the service (onServed hook).
+     */
     public void serve(int currentTurn) {
         requireState(CustomerState.ORDERED, "be served");
         this.servedTurn = currentTurn;
         this.state = CustomerState.EATING;
+        onServed(currentTurn);
     }
 
     /**
@@ -182,6 +210,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer #" + id + " [" + state + ", satisfaction " + satisfaction + "]";
+        return getTypeLabel() + " Customer #" + id + " [" + state + ", satisfaction " + satisfaction + "]";
     }
 }
