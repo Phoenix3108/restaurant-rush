@@ -96,6 +96,11 @@ public class ConsoleUI {
                 throw new IllegalStateException("Input ended before the game finished.");
             }
             String input = scanner.nextLine().trim();
+            if (Boolean.getBoolean("replay")) {
+                // Test-run replay (java -Dreplay=true ...): input comes from a file, so echo it
+                // to make the transcript show each choice.
+                System.out.println(input);
+            }
             try {
                 int number = Integer.parseInt(input);
                 if (number >= 1 && number <= options.size()) {
@@ -123,7 +128,8 @@ public class ConsoleUI {
      */
     public void showTurnEnd(int turn, Restaurant restaurant) {
         System.out.println("--- End of turn " + turn + " ---");
-        System.out.println("Served (paid): " + restaurant.getPaidCount()
+        System.out.println("Served: " + restaurant.getServedCount()
+                + " | Paid: " + restaurant.getPaidCount()
                 + " | Unhappy departures: " + restaurant.getUnhappyDepartures()
                 + " | Revenue: " + Money.format(restaurant.getRevenueCents())
                 + " | Avg satisfaction (paid): " + averageText(restaurant)

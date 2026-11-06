@@ -11,9 +11,9 @@ Requires JDK 17 or newer. Run from the repo root.
 ./run.sh
 ```
 
-**Windows**
+**Windows** (PowerShell, e.g. the VS Code terminal)
 ```
-run.bat
+.\run.bat
 ```
 
 Manual equivalent:
@@ -52,7 +52,7 @@ Worked example (brief 3.3): a customer arrives turn 1 and is seated (92), orders
 ## Git workflow
 
 1. `git pull` on `main` before starting.
-2. Work on your own branch: `part1-menu-orders`, `part2-customers`, `part3-staff-tables`, `part4-game-loop`.
+2. Work on your own branch (e.g. `guruparan/part1-menu-orders`, `part2-customers`, `ani/game-loop`), never directly on `main`.
 3. Commit often with clear messages, push, open a Pull Request into `main`.
 4. Make sure `./run.sh` compiles before you open the PR.
 5. **No Stage 2 code in `main` until `stage-1` is tagged.** Same for Stage 3 and `stage-2`.
@@ -67,6 +67,34 @@ git push origin stage-1
 
 - Food choice rule: customers cycle through the menu by ID: #1 Salad, #2 Burger, #3 Pasta, #4 Salad, #5 Burger, #6 Pasta.
 - Display order: the turn display is shown after step 1 (arrivals) so the manager can see the new customer before choosing.
+
+## Test notes
+
+### Stage 1
+
+| Run | Inputs | Transcript | Result |
+|---|---|---|---|
+| Victory | `docs/test-runs/stage1-victory-input.txt` | `docs/test-runs/stage1-victory.txt` | 5 paid, $66.00, avg 79.2 → VICTORY |
+| Defeat | `docs/test-runs/stage1-defeat-input.txt` | `docs/test-runs/stage1-defeat.txt` | 0 paid, 2 unhappy departures → DEFEAT |
+
+The victory run serves a READY dish when there is one, otherwise takes an order, otherwise seats the next customer; the Chef always cooks the oldest order.
+The defeat run also exercises invalid input (turn 1: `fghjkl`, `9`, `0`) and invalid choices (turn 7: seating at an occupied table is refused with a reason and the Waiter chooses again).
+
+Each input file has one choice per line. To replay a run exactly:
+
+**Windows (PowerShell)**
+```
+javac -d out -sourcepath src src\restaurant\Main.java
+Get-Content docs\test-runs\stage1-victory-input.txt | java -Dreplay=true -cp out restaurant.Main
+```
+
+**macOS / Linux**
+```
+javac -d out -sourcepath src src/restaurant/Main.java
+java -Dreplay=true -cp out restaurant.Main < docs/test-runs/stage1-victory-input.txt
+```
+
+`-Dreplay=true` makes the game echo each input, so the output matches the transcript.
 
 ## Stage comparisons
 

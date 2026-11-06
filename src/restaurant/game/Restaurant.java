@@ -87,6 +87,17 @@ public class Restaurant {
         return unhappyDepartures;
     }
 
+    /** Customers whose dish has been served so far (brief 3.5), whether or not they have paid yet. */
+    public int getServedCount() {
+        int count = 0;
+        for (Customer customer : customers) {
+            if (customer.getServedTurn() != -1) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public boolean hasPaidCustomers() {
         return paidCount > 0;
     }

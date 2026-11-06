@@ -1,3 +1,4 @@
+
 === Turn 1 / 18 ===
 Customer #1 [WAITING, satisfaction 100] arrives and joins the queue.
 Revenue: $0.00 | Avg satisfaction (paid): N/A
@@ -22,7 +23,7 @@ Chef: choose a task
 Enter 1-1: 1
 Waits this turn.
 --- End of turn 1 ---
-Served (paid): 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 1
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 1
 
 === Turn 2 / 18 ===
 Revenue: $0.00 | Avg satisfaction (paid): N/A
@@ -47,7 +48,7 @@ Chef: choose a task
 Enter 1-2: 1
 Order #1 (Salad for Customer #1) is now READY
 --- End of turn 2 ---
-Served (paid): 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 2
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 2
 
 === Turn 3 / 18 ===
 Revenue: $0.00 | Avg satisfaction (paid): N/A
@@ -71,7 +72,7 @@ Chef: choose a task
 Enter 1-1: 1
 Waits this turn.
 --- End of turn 3 ---
-Served (paid): 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 3
+Served: 1 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 3
 
 === Turn 4 / 18 ===
 Customer #2 [WAITING, satisfaction 100] arrives and joins the queue.
@@ -99,7 +100,7 @@ Enter 1-1: 1
 Waits this turn.
 Customer #1 finished eating and is ready to pay.
 --- End of turn 4 ---
-Served (paid): 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 4
+Served: 1 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 4
 
 === Turn 5 / 18 ===
 Revenue: $0.00 | Avg satisfaction (paid): N/A
@@ -126,7 +127,7 @@ Enter 1-2: 1
 Order #2 (Burger for Customer #2) is now READY
 Cashier: Customer #1 paid $9.00 (satisfaction 84).
 --- End of turn 5 ---
-Served (paid): 1 | Unhappy departures: 0 | Revenue: $9.00 | Avg satisfaction (paid): 84.0 |Turns used: 5
+Served: 1 | Paid: 1 | Unhappy departures: 0 | Revenue: $9.00 | Avg satisfaction (paid): 84.0 | Turns used: 5
 
 === Turn 6 / 18 ===
 Revenue: $9.00 | Avg satisfaction (paid): 84.0
@@ -150,7 +151,7 @@ Chef: choose a task
 Enter 1-1: 1
 Waits this turn.
 --- End of turn 6 ---
-Served (paid): 1 | Unhappy departures: 0 | Revenue: $9.00 | Avg satisfaction (paid): 84.0 |Turns used: 6
+Served: 2 | Paid: 1 | Unhappy departures: 0 | Revenue: $9.00 | Avg satisfaction (paid): 84.0 | Turns used: 6
 
 === Turn 7 / 18 ===
 Customer #3 [WAITING, satisfaction 100] arrives and joins the queue.
@@ -178,7 +179,7 @@ Enter 1-1: 1
 Waits this turn.
 Customer #2 finished eating and is ready to pay.
 --- End of turn 7 ---
-Served (paid): 1 | Unhappy departures: 0 | Revenue: $9.00 | Avg satisfaction (paid): 84.0 |Turns used: 7
+Served: 2 | Paid: 1 | Unhappy departures: 0 | Revenue: $9.00 | Avg satisfaction (paid): 84.0 | Turns used: 7
 
 === Turn 8 / 18 ===
 Revenue: $9.00 | Avg satisfaction (paid): 84.0
@@ -205,7 +206,7 @@ Enter 1-2: 1
 Order #3 (Pasta for Customer #3) is now 1/2 units done
 Cashier: Customer #2 paid $15.00 (satisfaction 84).
 --- End of turn 8 ---
-Served (paid): 2 | Unhappy departures: 0 | Revenue: $24.00 | Avg satisfaction (paid): 84.0 | Turns used: 8
+Served: 2 | Paid: 2 | Unhappy departures: 0 | Revenue: $24.00 | Avg satisfaction (paid): 84.0 | Turns used: 8
 
 === Turn 9 / 18 ===
 Revenue: $24.00 | Avg satisfaction (paid): 84.0
@@ -229,7 +230,7 @@ Chef: choose a task
 Enter 1-2: 1
 Order #3 (Pasta for Customer #3) is now READY
 --- End of turn 9 ---
-Served (paid): 2 | Unhappy departures: 0 | Revenue: $24.00 | Avg satisfaction (paid): 84.0 | Turns used: 9
+Served: 2 | Paid: 2 | Unhappy departures: 0 | Revenue: $24.00 | Avg satisfaction (paid): 84.0 | Turns used: 9
 
 === Turn 10 / 18 ===
 Customer #4 [WAITING, satisfaction 100] arrives and joins the queue.
@@ -257,7 +258,7 @@ Chef: choose a task
 Enter 1-1: 1
 Waits this turn.
 --- End of turn 10 ---
-Served (paid): 2 | Unhappy departures: 0 | Revenue: $24.00 | Avg satisfaction (paid): 84.0 | Turns used: 10
+Served: 3 | Paid: 2 | Unhappy departures: 0 | Revenue: $24.00 | Avg satisfaction (paid): 84.0 | Turns used: 10
 
 === Turn 11 / 18 ===
 Revenue: $24.00 | Avg satisfaction (paid): 84.0
@@ -284,7 +285,7 @@ Enter 1-1: 1
 Waits this turn.
 Customer #3 finished eating and is ready to pay.
 --- End of turn 11 ---
-Served (paid): 2 | Unhappy departures: 0 | Revenue: $24.00 | Avg satisfaction (paid): 84.0 | Turns used: 11
+Served: 3 | Paid: 2 | Unhappy departures: 0 | Revenue: $24.00 | Avg satisfaction (paid): 84.0 | Turns used: 11
 
 === Turn 12 / 18 ===
 Revenue: $24.00 | Avg satisfaction (paid): 84.0
@@ -311,7 +312,7 @@ Enter 1-2: 1
 Order #4 (Salad for Customer #4) is now READY
 Cashier: Customer #3 paid $18.00 (satisfaction 76).
 --- End of turn 12 ---
-Served (paid): 3 | Unhappy departures: 0 | Revenue: $42.00 | Avg satisfaction (paid): 81.3 | Turns used: 12
+Served: 3 | Paid: 3 | Unhappy departures: 0 | Revenue: $42.00 | Avg satisfaction (paid): 81.3 | Turns used: 12
 
 === Turn 13 / 18 ===
 Customer #5 [WAITING, satisfaction 100] arrives and joins the queue.
@@ -339,7 +340,7 @@ Chef: choose a task
 Enter 1-1: 1
 Waits this turn.
 --- End of turn 13 ---
-Served (paid): 3 | Unhappy departures: 0 | Revenue: $42.00 | Avg satisfaction (paid): 81.3 | Turns used: 13
+Served: 4 | Paid: 3 | Unhappy departures: 0 | Revenue: $42.00 | Avg satisfaction (paid): 81.3 | Turns used: 13
 
 === Turn 14 / 18 ===
 Revenue: $42.00 | Avg satisfaction (paid): 81.3
@@ -366,7 +367,7 @@ Enter 1-1: 1
 Waits this turn.
 Customer #4 finished eating and is ready to pay.
 --- End of turn 14 ---
-Served (paid): 3 | Unhappy departures: 0 | Revenue: $42.00 | Avg satisfaction (paid): 81.3 | Turns used: 14
+Served: 4 | Paid: 3 | Unhappy departures: 0 | Revenue: $42.00 | Avg satisfaction (paid): 81.3 | Turns used: 14
 
 === Turn 15 / 18 ===
 Revenue: $42.00 | Avg satisfaction (paid): 81.3
@@ -393,7 +394,7 @@ Enter 1-2: 1
 Order #5 (Burger for Customer #5) is now READY
 Cashier: Customer #4 paid $9.00 (satisfaction 76).
 --- End of turn 15 ---
-Served (paid): 4 | Unhappy departures: 0 | Revenue: $51.00 | Avg satisfaction (paid): 80.0 | Turns used: 15
+Served: 4 | Paid: 4 | Unhappy departures: 0 | Revenue: $51.00 | Avg satisfaction (paid): 80.0 | Turns used: 15
 
 === Turn 16 / 18 ===
 Customer #6 [WAITING, satisfaction 100] arrives and joins the queue.
@@ -421,7 +422,7 @@ Chef: choose a task
 Enter 1-1: 1
 Waits this turn.
 --- End of turn 16 ---
-Served (paid): 4 | Unhappy departures: 0 | Revenue: $51.00 | Avg satisfaction (paid): 80.0 | Turns used: 16
+Served: 5 | Paid: 4 | Unhappy departures: 0 | Revenue: $51.00 | Avg satisfaction (paid): 80.0 | Turns used: 16
 
 === Turn 17 / 18 ===
 Revenue: $51.00 | Avg satisfaction (paid): 80.0
@@ -448,7 +449,7 @@ Enter 1-1: 1
 Waits this turn.
 Customer #5 finished eating and is ready to pay.
 --- End of turn 17 ---
-Served (paid): 4 | Unhappy departures: 0 | Revenue: $51.00 | Avg satisfaction (paid): 80.0 | Turns used: 17
+Served: 5 | Paid: 4 | Unhappy departures: 0 | Revenue: $51.00 | Avg satisfaction (paid): 80.0 | Turns used: 17
 
 === Turn 18 / 18 ===
 Revenue: $51.00 | Avg satisfaction (paid): 80.0
@@ -475,7 +476,7 @@ Enter 1-2: 1
 Order #6 (Pasta for Customer #6) is now 1/2 units done
 Cashier: Customer #5 paid $15.00 (satisfaction 76).
 --- End of turn 18 ---
-Served (paid): 5 | Unhappy departures: 0 | Revenue: $66.00 | Avg satisfaction (paid): 79.2 | Turns used: 18
+Served: 5 | Paid: 5 | Unhappy departures: 0 | Revenue: $66.00 | Avg satisfaction (paid): 79.2 | Turns used: 18
 
 === Final result ===
   Paid customers:          5        (target at least 4) MET
