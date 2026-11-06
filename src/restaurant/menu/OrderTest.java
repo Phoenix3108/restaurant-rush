@@ -1,6 +1,7 @@
 package restaurant.menu;
 
 import restaurant.customer.Customer;
+import restaurant.customer.RegularCustomer;
 
 public class OrderTest {
 
@@ -135,7 +136,7 @@ public class OrderTest {
          * If your Customer class uses a different constructor,
          * adjust this line to match it.
          */
-        Customer customer = new Customer(1, 1);
+        Customer customer = new RegularCustomer(1, 1);
 
         return new Order(customer, item, priceCents, 1);
     }
@@ -194,7 +195,7 @@ public class OrderTest {
     }
 
     private static void testBillAndReferences() {
-        Customer customer = new Customer(99, 1);
+        Customer customer = new RegularCustomer(99, 1);
         MenuItem item = new MenuItem("Burger", 1500, 1);
 
         Order order = new Order(customer, item, 1500, 1);

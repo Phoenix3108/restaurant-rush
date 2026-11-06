@@ -1,6 +1,7 @@
 package restaurant.game;
 
 import restaurant.customer.Customer;
+import restaurant.customer.RegularCustomer;
 
 /**
  * Creates one kind of customer. GameConfig pairs each arrival turn with a factory,
@@ -12,8 +13,8 @@ import restaurant.customer.Customer;
 @FunctionalInterface
 public interface CustomerFactory {
 
-    /** Regular customers (the Stage 1 base class). */
-    CustomerFactory REGULAR = Customer::new;
+    /** Regular customers. (Customer is abstract from Stage 2, so this names the concrete type.) */
+    CustomerFactory REGULAR = RegularCustomer::new;
 
     Customer create(int id, int arrivalTurn);
 }
