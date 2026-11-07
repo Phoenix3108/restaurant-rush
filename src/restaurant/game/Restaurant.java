@@ -5,10 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 import restaurant.customer.Customer;
+import restaurant.customer.CustomerState;
 import restaurant.customer.WaitingQueue;
 import restaurant.floor.Table;
 import restaurant.menu.Menu;
 import restaurant.menu.Order;
+import restaurant.menu.OrderStatus;
 import restaurant.staff.Cashier;
 import restaurant.staff.Chef;
 import restaurant.staff.Waiter;
@@ -85,6 +87,17 @@ public class Restaurant {
         return unhappyDepartures;
     }
 
+    /** Customers whose dish has been served so far (brief 3.5), whether or not they have paid yet. */
+    public int getServedCount() {
+        int count = 0;
+        for (Customer customer : customers) {
+            if (customer.getServedTurn() != -1) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public boolean hasPaidCustomers() {
         return paidCount > 0;
     }
@@ -104,44 +117,85 @@ public class Restaurant {
 
     /** Add the bill to revenue and record the customer's satisfaction. */
     public void recordPayment(Customer customer) {
-        // TODO(Part 4): revenueCents += order bill; paidCount++; paidSatisfactionTotal += satisfaction
-        throw new UnsupportedOperationException("TODO Part 4: Restaurant.recordPayment");
+        revenueCents += customer.getOrder().getBillCents();
+        paidCount++;
+        paidSatisfactionTotal += customer.getSatisfaction();
     }
 
     /** Count an unhappy departure (customer.leave() handles the order and table). */
     public void recordDeparture(Customer customer) {
-        // TODO(Part 4)
-        throw new UnsupportedOperationException("TODO Part 4: Restaurant.recordDeparture");
+        queue.remove(customer);
+        unhappyDepartures++;
     }
 
     // ---------- queries used by the controller to build the manager's options ----------
 
     public List<Table> getFreeTables() {
-        // TODO(Part 4)
-        throw new UnsupportedOperationException("TODO Part 4: Restaurant.getFreeTables");
+        List<Table> free = new ArrayList<>();
+        for (Table table : tables) {
+            if (table.isFree()) {
+                free.add(table);
+            }
+        }
+        return free;
     }
 
     /** Customers at a table whose order has not been taken (state SEATED). */
     public List<Customer> getCustomersAwaitingOrder() {
-        // TODO(Part 4)
-        throw new UnsupportedOperationException("TODO Part 4: Restaurant.getCustomersAwaitingOrder");
+        return customersIn(CustomerState.SEATED);
     }
 
     /** Orders the Chef can work on (IN_PREPARATION). */
     public List<Order> getOrdersInKitchen() {
-        // TODO(Part 4)
-        throw new UnsupportedOperationException("TODO Part 4: Restaurant.getOrdersInKitchen");
+        return ordersWithStatus(OrderStatus.IN_PREPARATION);
     }
 
     /** Orders the Waiter can serve (READY). */
     public List<Order> getReadyOrders() {
-        // TODO(Part 4)
-        throw new UnsupportedOperationException("TODO Part 4: Restaurant.getReadyOrders");
+        return ordersWithStatus(OrderStatus.READY);
     }
 
     /** Customers still in the restaurant (not PAID, not LEFT). */
     public List<Customer> getActiveCustomers() {
-        // TODO(Part 4)
-        throw new UnsupportedOperationException("TODO Part 4: Restaurant.getActiveCustomers");
+        List<Customer> active = new ArrayList<>();
+        for (Customer customer : customers) {
+            if (customer.getState() != CustomerState.PAID && customer.getState() != CustomerState.LEFT) {
+                active.add(customer);
+            }
+        }
+        return active;
+    }
+
+    /** Customers the Cashier could charge this turn (finished eating on an earlier turn). */
+    public List<Customer> getCustomersAbleToPay(int currentTurn) {
+        List<Customer> result = new ArrayList<>();
+        for (Customer customer : customers) {
+            if (customer.canPay(currentTurn)) {
+                result.add(customer);
+            }
+        }
+        return result;
+    }
+
+    private List<Customer> customersIn(CustomerState state) {
+        List<Customer> result = new ArrayList<>();
+        for (Customer customer : customers) {
+            if (customer.getState() == state) {
+                result.add(customer);
+            }
+        }
+        return result;
+    }
+
+    /** Orders are reached through customers, oldest customer first. */
+    private List<Order> ordersWithStatus(OrderStatus status) {
+        List<Order> result = new ArrayList<>();
+        for (Customer customer : customers) {
+            Order order = customer.getOrder();
+            if (order != null && order.getStatus() == status) {
+                result.add(order);
+            }
+        }
+        return result;
     }
 }
