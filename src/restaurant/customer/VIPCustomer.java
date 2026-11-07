@@ -1,6 +1,7 @@
 package restaurant.customer;
 
 import restaurant.menu.MenuItem;
+import restaurant.menu.Money;
 
 /**
  * A VIP customer: more patient (loses 5 satisfaction per waiting turn instead of 8)
@@ -30,12 +31,10 @@ public class VIPCustomer extends Customer {
 
     /**
      * Full price minus 10%, rounded to the nearest cent (Burger $15.00 -> $13.50).
-     * Once Part 1 adds Money.percentOff(cents, percent), switch to it so all discounts
-     * share one rounding rule.
+     * Uses Money.percentOff so every discount (VIP, Happy Hour) shares one rounding rule.
      */
     @Override
     public int computeBillCents(MenuItem item) {
-        int price = item.getPriceCents();
-        return (price * (100 - DISCOUNT_PERCENT) + 50) / 100;
+        return Money.percentOff(item.getPriceCents(), DISCOUNT_PERCENT);
     }
 }
