@@ -62,6 +62,7 @@ public class ConsoleUI {
         for (Customer customer : active) {
             Order order = customer.getOrder();
             System.out.println("  #" + customer.getId()
+                    + "  " + customer.getTypeLabel()
                     + "  " + customer.getState()
                     + "  satisfaction " + customer.getSatisfaction()
                     + "  order: " + (order == null ? "none"
