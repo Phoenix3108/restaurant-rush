@@ -35,4 +35,24 @@ public class Menu {
     public int size() {
         return items.size();
     }
+
+    /**
+     * Returns the most expensive item on the menu.
+     */
+    public MenuItem getMostExpensive() {
+        if (items.isEmpty()) {
+            throw new IllegalStateException("Menu is empty.");
+        }
+
+        MenuItem mostExpensive = items.get(0);
+
+        for (MenuItem item : items) {
+            if (item.getPriceCents() > mostExpensive.getPriceCents()) {
+                mostExpensive = item;
+            }
+        }
+
+        return mostExpensive;
+    }
+
 }
