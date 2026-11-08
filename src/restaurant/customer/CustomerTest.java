@@ -26,6 +26,8 @@ public class CustomerTest {
         testOnServedHook();
         testAdjustSatisfactionLimits();
         testEatingTimingUnchanged();
+        testComboRule();
+        testHappyHourRecovery();
 
         System.out.println("\n========================");
         System.out.println("Tests passed: " + passed);
@@ -124,6 +126,46 @@ public class CustomerTest {
         check(c.getSatisfaction() == 100, "satisfaction never goes above 100");
         c.change(-150);
         check(c.getSatisfaction() == 0, "satisfaction never goes below 0");
+    }
+
+    /** Stage 3: every third customer orders the combo; the rest cycle; the Critic keeps Pasta. */
+    private static void testComboRule() {
+        Menu menu = Menu.standardMenu();
+        check(new RegularCustomer(1, 1).chooseMenuItem(menu).getName().equals("Salad"), "#1 orders Salad");
+        check(new VIPCustomer(2, 4).chooseMenuItem(menu).getName().equals("Burger"), "#2 orders Burger");
+        MenuItem third = new RegularCustomer(3, 7).chooseMenuItem(menu);
+        check(third.getName().equals("Salad + Pasta combo") && third.getPriceCents() == 2430
+                && third.getPrepUnits() == 3, "#3 orders the Salad + Pasta combo ($24.30, 3 units)");
+        check(new CriticCustomer(4, 10).chooseMenuItem(menu).getName().equals("Pasta"), "Critic still orders Pasta");
+        check(new RegularCustomer(5, 13).chooseMenuItem(menu).getName().equals("Burger"), "#5 orders Burger");
+        check(new RegularCustomer(6, 16).chooseMenuItem(menu).getName().equals("Salad + Pasta combo"), "#6 orders the combo");
+        Menu noCombos = new Menu(menu.getItems());
+        check(new RegularCustomer(3, 7).chooseMenuItem(noCombos).getName().equals("Pasta"),
+                "without combos, #3 falls back to the cycle (Pasta)");
+    }
+
+    /** Stage 3: Happy Hour +15 only for customers still waiting for a table or food, max 100. */
+    private static void testHappyHourRecovery() {
+        Customer waiting = new RegularCustomer(7, 1);
+        waiting.applyWaitingPenalty();
+        waiting.applyWaitingPenalty();                                   // 100 -> 84
+        check(waiting.recoverSatisfaction(15) && waiting.getSatisfaction() == 99, "WAITING recovers 84 -> 99");
+        check(waiting.recoverSatisfaction(15) && waiting.getSatisfaction() == 100, "recovery capped at 100");
+
+        Customer ordered = new VIPCustomer(8, 1);
+        ordered.seatAt(null);
+        ordered.applyWaitingPenalty();                                   // 100 -> 95
+        Menu menu = Menu.standardMenu();
+        ordered.placeOrder(new Order(ordered, menu.getItem(0), 810, 2));
+        ordered.applyWaitingPenalty();                                   // 95 -> 90
+        check(ordered.recoverSatisfaction(15) && ordered.getSatisfaction() == 100, "ORDERED recovers 90 -> 100");
+
+        Customer eating = new RegularCustomer(9, 1);
+        eating.seatAt(null);
+        eating.placeOrder(new Order(eating, menu.getItem(0), 900, 2));
+        eating.applyWaitingPenalty();                                    // 100 -> 92
+        eating.serve(3);
+        check(!eating.recoverSatisfaction(15) && eating.getSatisfaction() == 92, "EATING customer does not recover");
     }
 
     private static void testEatingTimingUnchanged() {
