@@ -11,34 +11,50 @@ import java.util.List;
 public class Menu {
 
     private final List<MenuItem> items;
+    private final List<ComboMeal> combos;
 
     public Menu(List<MenuItem> items) {
-        this.items = List.copyOf(items);
+        this(items, List.of());
     }
 
-    /** The base-setting menu from brief 2.1. */
+    public Menu(List<MenuItem> items, List<ComboMeal> combos) {
+        this.items = List.copyOf(items);
+        this.combos = List.copyOf(combos);
+    }
+
     public static Menu standardMenu() {
-        return new Menu(List.of(
-                new MenuItem("Salad", Money.dollars(9), 1),
-                new MenuItem("Burger", Money.dollars(15), 1),
-                new MenuItem("Pasta", Money.dollars(18), 2)));
+        MenuItem salad = new MenuItem("Salad", Money.dollars(9), 1);
+        MenuItem burger = new MenuItem("Burger", Money.dollars(15), 1);
+        MenuItem pasta = new MenuItem("Pasta", Money.dollars(18), 2);
+
+        ComboMeal saladPasta = new ComboMeal(salad, pasta);
+
+        return new Menu(
+                List.of(salad, burger, pasta),
+                List.of(saladPasta)
+        );
     }
 
     public List<MenuItem> getItems() {
         return Collections.unmodifiableList(items);
     }
 
+    public List<ComboMeal> getCombos() {
+        return Collections.unmodifiableList(combos);
+    }
+
     public MenuItem getItem(int index) {
         return items.get(index);
+    }
+
+    public ComboMeal getCombo(int index) {
+        return combos.get(index);
     }
 
     public int size() {
         return items.size();
     }
 
-    /**
-     * Returns the most expensive item on the menu.
-     */
     public MenuItem getMostExpensive() {
         if (items.isEmpty()) {
             throw new IllegalStateException("Menu is empty.");
@@ -54,5 +70,4 @@ public class Menu {
 
         return mostExpensive;
     }
-
 }

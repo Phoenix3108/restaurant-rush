@@ -59,6 +59,25 @@ public class MenuTest {
         check(exceptionThrown,
                 "Empty menu throws IllegalStateException");
 
+        // Stage 3 tests
+        check(menu.getItems().size() == 3,
+                "Combos are not included in regular menu items");
+
+        check(menu.getCombos().size() == 1,
+                "Menu contains one combo");
+
+        check(menu.getCombo(0).getName().equals("Salad + Pasta combo"),
+                "First combo is Salad + Pasta");
+
+        check(menu.getCombo(0).getPriceCents() == 2430,
+                "Salad + Pasta combo costs $24.30");
+
+        check(menu.getCombo(0).getPrepUnits() == 3,
+                "Salad + Pasta combo needs three prep units");
+
+        check(menu.getMostExpensive().getName().equals("Pasta"),
+                "Pasta remains the most expensive regular menu item");
+
         System.out.println("\n========================");
         System.out.println("Tests passed: " + passed);
         System.out.println("Tests failed: " + failed);
