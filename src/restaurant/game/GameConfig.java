@@ -3,6 +3,8 @@ package restaurant.game;
 import java.util.List;
 import java.util.Optional;
 
+import restaurant.customer.CriticCustomer;
+import restaurant.customer.VIPCustomer;
 import restaurant.menu.Money;
 
 /**
@@ -29,11 +31,18 @@ public class GameConfig {
         this.targetAverageSatisfaction = targetAverageSatisfaction;
     }
 
-    /** 18 turns, 2 tables, arrivals on 1/4/7/10/13/16; win = 4 paid, $45, avg satisfaction 60. */
+    /**
+     * 18 turns, 2 tables, arrivals on 1/4/7/10/13/16 (VIP on 4, Critic on 10, the rest Regular);
+     * win = 4 paid, $45, avg satisfaction 60.
+     */
     public static GameConfig baseSetting() {
         return new GameConfig(18, 2,
-                List.of(Arrival.regular(1), Arrival.regular(4), Arrival.regular(7),
-                        Arrival.regular(10), Arrival.regular(13), Arrival.regular(16)),
+                List.of(Arrival.regular(1),
+                        new Arrival(4, VIPCustomer::new),
+                        Arrival.regular(7),
+                        new Arrival(10, CriticCustomer::new),
+                        Arrival.regular(13),
+                        Arrival.regular(16)),
                 4, Money.dollars(45), 60);
     }
 

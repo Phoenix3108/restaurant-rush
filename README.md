@@ -87,6 +87,16 @@ git push origin stage-1
 The victory run serves a READY dish when there is one, otherwise takes an order, otherwise seats the next customer; the Chef always cooks the oldest order.
 The defeat run also exercises invalid input (turn 1: `fghjkl`, `9`, `0`) and invalid choices (turn 7: seating at an occupied table is refused with a reason and the Waiter chooses again).
 
+### Stage 2
+
+Base setting with a VIP on turn 4 and a Critic on turn 10 (the other four are Regular).
+
+| Run | Inputs | Transcript | Result |
+|---|---|---|---|
+| Victory | `docs/test-runs/stage2-victory-input.txt` | `docs/test-runs/stage2-victory.txt` | 5 paid, $73.50, avg 77.6 → VICTORY |
+
+Same strategy as the Stage 1 victory run. The VIP (#2) orders a Burger billed at $13.50 (10% off) and loses only 5 per waiting turn; the Critic (#4) orders Pasta, is served as fast as the kitchen allows and gets +10 (52 → 62).
+
 Each input file has one choice per line. To replay a run exactly:
 
 **Windows (PowerShell)**
@@ -102,10 +112,39 @@ java -Dreplay=true -cp out restaurant.Main < docs/test-runs/stage1-victory-input
 ```
 
 `-Dreplay=true` makes the game echo each input, so the output matches the transcript.
+Stage 1 runs match their transcripts only on the `stage-1` tag (`git checkout stage-1`), because Stage 2 changes the customers on turns 4 and 10.
 
 ## Stage comparisons
 
-To be filled in for 1 → 2 and 2 → 3 (new files, changed files with reasons, compare links).
+### Stage 1 → 2
+
+Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-1...stage-2
+
+**New files**
+
+| File | Why |
+|---|---|
+| `customer/RegularCustomer` | The Stage 1 behaviour as its own type, now that `Customer` is abstract |
+| `customer/VIPCustomer` | Loses 5 per waiting turn, 10% off the bill |
+| `customer/CriticCustomer` | Loses 12 per waiting turn, orders the most expensive dish, ±10 when served |
+| `customer/CustomerTest` | Tests for the three customer types |
+| `staff/WaiterTest` | Tests for the Waiter's actions and refusals |
+
+**Changed files**
+
+| File | What changed and why |
+|---|---|
+| `customer/Customer` | Now abstract, with hooks `getTypeLabel()`, `getSatisfactionLossPerTurn()`, `onServed()`, so each type adds behaviour without changing the controller |
+| `game/CustomerFactory` | `REGULAR` uses `RegularCustomer::new` (`Customer` can't be created directly) |
+| `menu/Menu` | `getMostExpensive()` for the Critic |
+| `menu/Money` | `percentOff()` so all discounts share one rounding rule |
+| `game/GameConfig` | VIP on turn 4, Critic on turn 10 (still 6 arrivals, no if-else in the controller) |
+| `ui/ConsoleUI` | Shows the customer type |
+| `menu/OrderTest`, `menu/MenuTest`, `menu/MoneyTest` | Updated tests |
+
+### Stage 2 → 3
+
+To be filled in.
 
 ## Video timestamps
 
