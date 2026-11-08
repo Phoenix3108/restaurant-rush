@@ -65,7 +65,8 @@ git push origin stage-1
 
 ## Documented rules
 
-- Food choice rule: customers cycle through the menu by ID: #1 Salad, #2 Burger, #3 Pasta, #4 Salad, #5 Burger, #6 Pasta.
+- Food choice rule: every third customer (#3, #6) orders the Salad + Pasta combo ($24.30, 3 units); everyone else cycles through the single dishes by ID: #1 Salad, #2 Burger, #4 Salad, #5 Burger. The Critic overrides this and always orders the most expensive single dish (Pasta). (In Stages 1 and 2, before combos existed, #3 and #6 ordered Pasta.)
+- Happy Hour recovery: on each active turn, customers still waiting for a table or food (WAITING, SEATED, ORDERED) recover 15 satisfaction at turn start, up to 100; customers already served are unaffected.
 - Display order: the turn display is shown after step 1 (arrivals) so the manager can see the new customer before choosing.
 - Customer types (Stage 2), one subclass of the abstract `Customer` each; the controller never checks the type:
 

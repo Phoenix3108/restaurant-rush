@@ -13,7 +13,7 @@ import restaurant.menu.Order;
  *   getTypeLabel()              - "Regular", "VIP", "Critic" (for the display)
  *   getSatisfactionLossPerTurn() - abstract: every type must say how impatient it is
  *   computeBillCents(item)       - full price unless overridden (VIP: 10% off)
- *   chooseMenuItem(menu)         - the documented cycle rule unless overridden
+ *   chooseMenuItem(menu)         - the documented food rule (cycle + combo) unless overridden
  *   onServed(turn)               - hook called when the dish arrives (no-op by default)
  *
  * The controller and staff only ever call these through a Customer reference,
@@ -105,11 +105,18 @@ public abstract class Customer {
 
     /**
      * The customer picks their own dish (the manager never chooses).
-     * Documented rule: customers cycle through the menu by ID, so
-     * #1 Salad, #2 Burger, #3 Pasta, #4 Salad, #5 Burger, #6 Pasta.
+     * Documented rule:
+     *   - every third customer (#3, #6, ...) orders the menu's first combo
+     *     (Salad + Pasta combo on the base menu), if the menu has combos;
+     *   - everyone else cycles through the single dishes by ID:
+     *     #1 Salad, #2 Burger, #4 Salad, #5 Burger, ...
      * Deterministic, so every run of the base setting is reproducible.
+     * A type with its own preference (e.g. the Critic) overrides this.
      */
     public MenuItem chooseMenuItem(Menu menu) {
+        if (id % 3 == 0 && !menu.getCombos().isEmpty()) {
+            return menu.getCombo(0);
+        }
         return menu.getItem((id - 1) % menu.size());
     }
 
@@ -134,6 +141,21 @@ public abstract class Customer {
         }
         satisfaction = Math.max(0, satisfaction - getSatisfactionLossPerTurn());
         return satisfaction == 0;
+    }
+
+    /**
+     * Happy Hour (Stage 3): at the start of each active turn, a customer still waiting
+     * for a table or for food (WAITING, SEATED or ORDERED) recovers the given points,
+     * capped at MAX_SATISFACTION. Customers already served, paid or gone are unaffected.
+     *
+     * @return true if this customer was eligible to recover
+     */
+    public boolean recoverSatisfaction(int points) {
+        if (!isLosingSatisfaction()) {
+            return false;
+        }
+        adjustSatisfaction(points);
+        return true;
     }
 
     /** WAITING -> SEATED at the given table. */
