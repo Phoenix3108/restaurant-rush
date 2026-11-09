@@ -4,6 +4,7 @@ import restaurant.customer.Customer;
 import restaurant.customer.CustomerState;
 import restaurant.customer.WaitingQueue;
 import restaurant.floor.Table;
+import restaurant.menu.HappyHour;
 import restaurant.menu.Menu;
 import restaurant.menu.MenuItem;
 import restaurant.menu.Order;
@@ -31,50 +32,43 @@ public class Waiter extends Staff {
      * On success: remove from queue, table.assign(customer), customer.seatAt(table).
      */
     public ActionResult seat(Customer customer, Table table, WaitingQueue queue) {
-        if (hasActedThisTurn()){
-            return ActionResult.fail("Waiter has already acted this turn");
-        }
-        if (customer==null || table==null){
-            return ActionResult.fail("Must choose a customer and table");
-        }        
-        if (!queue.contains(customer)){
-            return ActionResult.fail("Customer #" + customer.getId() + " is not in queue");
-        }
-        if (!table.isFree()){
-            return ActionResult.fail("Table " + table.getId() + " is already occupied by Customer #" + table.getOccupant().getId());
-        }
-        queue.remove(customer);
-        table.assign(customer);
-        customer.seatAt(table);
-        markActed();
-        return ActionResult.ok("Waiter seated Customer #" + customer.getId() + " at Table " + table.getId());
+        return seatFromQueue(customer, table, queue);
+    }
+
+    /**
+     * Take a seated customer's order with no Happy Hour (kept so existing callers still work).
+     * Same as takeOrder(customer, menu, currentTurn, happyHour) with a Happy Hour that is never active.
+     */
+    public ActionResult takeOrder(Customer customer, Menu menu, int currentTurn) {
+        return takeOrder(customer, menu, currentTurn, new HappyHour());
     }
 
     /**
      * Take a seated customer's order. The CUSTOMER chooses the dish.
      * Fail if: already acted, customer not SEATED.
-     * On success: item = customer.chooseMenuItem(menu);
-     *             bill = customer.computeBillCents(item);
-     *             order = new Order(customer, item, bill, currentTurn);
-     *             customer.placeOrder(order);
-     *             message should show the dish, e.g. "Customer #2 orders Pasta ($18.00)".
+     * Bill = customer's own price (VIP 10% off) and then Happy Hour 20% off if active,
+     * locked into the Order now, so it does not change when Happy Hour ends.
+     * Message shows the dish, e.g. "Customer #2 orders Burger ($10.80, Happy Hour)".
      */
-    public ActionResult takeOrder(Customer customer, Menu menu, int currentTurn) {
-        if (hasActedThisTurn()){
+    public ActionResult takeOrder(Customer customer, Menu menu, int currentTurn, HappyHour happyHour) {
+        if (hasActedThisTurn()) {
             return ActionResult.fail("Waiter has already acted this turn");
         }
-        if (customer==null){
+        if (customer == null) {
             return ActionResult.fail("Must choose a customer");
-        }      
-        if (customer.getState()!=CustomerState.SEATED){
-            return ActionResult.fail("Customer #" + customer.getId() + " cannot order because the customer is " + customer.getState() + " not SEATED");
+        }
+        if (customer.getState() != CustomerState.SEATED) {
+            return ActionResult.fail("Customer #" + customer.getId() + " cannot order because the customer is "
+                    + customer.getState() + " not SEATED");
         }
         MenuItem item = customer.chooseMenuItem(menu);
-        int bill = customer.computeBillCents(item);
+        int bill = happyHour.apply(customer.computeBillCents(item), currentTurn);
         Order order = new Order(customer, item, bill, currentTurn);
         customer.placeOrder(order);
         markActed();
-        return ActionResult.ok("Customer #" + customer.getId() + " orders " + item.getName() + " (" + Money.format(bill) + ")");
+        String happyHourNote = happyHour.isActive(currentTurn) ? ", Happy Hour" : "";
+        return ActionResult.ok("Customer #" + customer.getId() + " orders " + item.getName()
+                + " (" + Money.format(bill) + happyHourNote + ")");
     }
 
     /**

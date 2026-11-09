@@ -67,6 +67,7 @@ git push origin stage-1
 
 - Food choice rule: every third customer (#3, #6) orders the Salad + Pasta combo ($24.30, 3 units); everyone else cycles through the single dishes by ID: #1 Salad, #2 Burger, #4 Salad, #5 Burger. The Critic overrides this and always orders the most expensive single dish (Pasta). (In Stages 1 and 2, before combos existed, #3 and #6 ordered Pasta.)
 - Happy Hour recovery: on each active turn, customers still waiting for a table or food (WAITING, SEATED, ORDERED) recover 15 satisfaction at turn start, up to 100; customers already served are unaffected.
+- Host (Stage 3): seats at most 1 queued customer per turn, in addition to the Waiter's one task (the Waiter can still seat too). The Host acts before the Waiter. Host and Waiter use the same seating rules (`Staff.seatFromQueue`): a refused choice (customer not in queue, table occupied) does not use up the Host's task.
 - Display order: the turn display is shown after step 1 (arrivals) so the manager can see the new customer before choosing.
 - Customer types (Stage 2), one subclass of the abstract `Customer` each; the controller never checks the type:
 
@@ -129,7 +130,7 @@ Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-1...stage-
 | `customer/VIPCustomer` | Loses 5 per waiting turn, 10% off the bill |
 | `customer/CriticCustomer` | Loses 12 per waiting turn, orders the most expensive dish, ±10 when served |
 | `customer/CustomerTest` | Tests for the three customer types |
-| `staff/WaiterTest` | Tests for the Waiter's actions and refusals |
+| `staff/WaiterTest` | Checks that `Waiter.serve()` triggers the Critic's reaction through the `onServed()` hook (no Critic-specific code in `Waiter`) |
 
 **Changed files**
 
