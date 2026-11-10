@@ -8,11 +8,13 @@ import restaurant.customer.Customer;
 import restaurant.customer.CustomerState;
 import restaurant.customer.WaitingQueue;
 import restaurant.floor.Table;
+import restaurant.menu.HappyHour;
 import restaurant.menu.Menu;
 import restaurant.menu.Order;
 import restaurant.menu.OrderStatus;
 import restaurant.staff.Cashier;
 import restaurant.staff.Chef;
+import restaurant.staff.Host;
 import restaurant.staff.Waiter;
 
 /**
@@ -31,6 +33,8 @@ public class Restaurant {
     private final Waiter waiter = new Waiter();
     private final Chef chef = new Chef();
     private final Cashier cashier = new Cashier();
+    private final Host host = new Host();
+    private final HappyHour happyHour = new HappyHour();
 
     private int revenueCents;
     private int paidCount;
@@ -73,6 +77,14 @@ public class Restaurant {
 
     public Cashier getCashier() {
         return cashier;
+    }
+
+    public Host getHost() {
+        return host;
+    }
+
+    public HappyHour getHappyHour() {
+        return happyHour;
     }
 
     public int getRevenueCents() {

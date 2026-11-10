@@ -7,6 +7,7 @@ import restaurant.customer.Customer;
 import restaurant.floor.Table;
 import restaurant.game.GameConfig;
 import restaurant.game.Restaurant;
+import restaurant.menu.HappyHour;
 import restaurant.menu.Money;
 import restaurant.menu.Order;
 
@@ -33,6 +34,7 @@ public class ConsoleUI {
     public void showTurnStart(int turn, Restaurant restaurant) {
         System.out.println("Revenue: " + Money.format(restaurant.getRevenueCents())
                 + " | Avg satisfaction (paid): " + averageText(restaurant));
+        System.out.println("Happy Hour: " + happyHourText(turn, restaurant.getHappyHour()));
 
         System.out.print("Waiting queue: ");
         List<Customer> queue = restaurant.getQueue().getCustomers();
@@ -72,6 +74,8 @@ public class ConsoleUI {
         }
 
         System.out.println("Tasks available:");
+        System.out.println("  Host:   " + restaurant.getQueue().size() + " to seat ("
+                + restaurant.getFreeTables().size() + " free table(s))");
         System.out.println("  Waiter: " + restaurant.getQueue().size() + " to seat ("
                 + restaurant.getFreeTables().size() + " free table(s)), "
                 + restaurant.getCustomersAwaitingOrder().size() + " order(s) to take, "
@@ -153,6 +157,16 @@ public class ConsoleUI {
 
     private static String targetLine(String name, String actual, String target, boolean met) {
         return String.format("  %-24s %-8s (target %s) %s", name + ":", actual, target, met ? "MET" : "NOT MET");
+    }
+
+    private static String happyHourText(int turn, HappyHour happyHour) {
+        if (!happyHour.hasBeenUsed()) {
+            return "available";
+        }
+        if (happyHour.isActive(turn)) {
+            return "ACTIVE (" + happyHour.remainingTurns(turn) + " turn(s) left)";
+        }
+        return "used";
     }
 
     private static String averageText(Restaurant restaurant) {
