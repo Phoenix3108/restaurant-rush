@@ -1,0 +1,881 @@
+
+=== Turn 1 / 18 ===
+Regular Customer #1 [WAITING, satisfaction 100] arrives and joins the queue.
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #1
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #1  Regular  WAITING  satisfaction 100  order: none
+Tasks available:
+  Host:   1 to seat (2 free table(s))
+  Waiter: 1 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Wait
+Enter 1-3: 3
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Wait
+Enter 1-3: 3
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 1 ---
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 1
+
+=== Turn 2 / 18 ===
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #1
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #1  Regular  WAITING  satisfaction 92  order: none
+Tasks available:
+  Host:   1 to seat (2 free table(s))
+  Waiter: 1 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Wait
+Enter 1-3: 3
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Wait
+Enter 1-3: 3
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 2 ---
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 2
+
+=== Turn 3 / 18 ===
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #1
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #1  Regular  WAITING  satisfaction 84  order: none
+Tasks available:
+  Host:   1 to seat (2 free table(s))
+  Waiter: 1 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Wait
+Enter 1-3: 3
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Wait
+Enter 1-3: 3
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 3 ---
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 3
+
+=== Turn 4 / 18 ===
+VIP Customer #2 [WAITING, satisfaction 100] arrives and joins the queue.
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #1, #2
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #1  Regular  WAITING  satisfaction 76  order: none
+  #2  VIP  WAITING  satisfaction 100  order: none
+Tasks available:
+  Host:   2 to seat (2 free table(s))
+  Waiter: 2 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Wait
+Enter 1-5: 5
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Wait
+Enter 1-5: 5
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 4 ---
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 4
+
+=== Turn 5 / 18 ===
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #1, #2
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #1  Regular  WAITING  satisfaction 68  order: none
+  #2  VIP  WAITING  satisfaction 95  order: none
+Tasks available:
+  Host:   2 to seat (2 free table(s))
+  Waiter: 2 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Wait
+Enter 1-5: 5
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Wait
+Enter 1-5: 5
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 5 ---
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 5
+
+=== Turn 6 / 18 ===
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #1, #2
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #1  Regular  WAITING  satisfaction 60  order: none
+  #2  VIP  WAITING  satisfaction 90  order: none
+Tasks available:
+  Host:   2 to seat (2 free table(s))
+  Waiter: 2 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Wait
+Enter 1-5: 5
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Wait
+Enter 1-5: 5
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 6 ---
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 6
+
+=== Turn 7 / 18 ===
+Regular Customer #3 [WAITING, satisfaction 100] arrives and joins the queue.
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #1, #2, #3
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #1  Regular  WAITING  satisfaction 52  order: none
+  #2  VIP  WAITING  satisfaction 85  order: none
+  #3  Regular  WAITING  satisfaction 100  order: none
+Tasks available:
+  Host:   3 to seat (2 free table(s))
+  Waiter: 3 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Wait
+Enter 1-7: 7
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Wait
+Enter 1-7: 7
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 7 ---
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 7
+
+=== Turn 8 / 18 ===
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #1, #2, #3
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #1  Regular  WAITING  satisfaction 44  order: none
+  #2  VIP  WAITING  satisfaction 80  order: none
+  #3  Regular  WAITING  satisfaction 92  order: none
+Tasks available:
+  Host:   3 to seat (2 free table(s))
+  Waiter: 3 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Wait
+Enter 1-7: 7
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Wait
+Enter 1-7: 7
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 8 ---
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 8
+
+=== Turn 9 / 18 ===
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #1, #2, #3
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #1  Regular  WAITING  satisfaction 36  order: none
+  #2  VIP  WAITING  satisfaction 75  order: none
+  #3  Regular  WAITING  satisfaction 84  order: none
+Tasks available:
+  Host:   3 to seat (2 free table(s))
+  Waiter: 3 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Wait
+Enter 1-7: 7
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Wait
+Enter 1-7: 7
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 9 ---
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 9
+
+=== Turn 10 / 18 ===
+Critic Customer #4 [WAITING, satisfaction 100] arrives and joins the queue.
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #1, #2, #3, #4
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #1  Regular  WAITING  satisfaction 28  order: none
+  #2  VIP  WAITING  satisfaction 70  order: none
+  #3  Regular  WAITING  satisfaction 76  order: none
+  #4  Critic  WAITING  satisfaction 100  order: none
+Tasks available:
+  Host:   4 to seat (2 free table(s))
+  Waiter: 4 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Seat Customer #4 at Table 1
+  8. Seat Customer #4 at Table 2
+  9. Wait
+Enter 1-9: 9
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Seat Customer #4 at Table 1
+  8. Seat Customer #4 at Table 2
+  9. Wait
+Enter 1-9: 9
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 10 ---
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 10
+
+=== Turn 11 / 18 ===
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #1, #2, #3, #4
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #1  Regular  WAITING  satisfaction 20  order: none
+  #2  VIP  WAITING  satisfaction 65  order: none
+  #3  Regular  WAITING  satisfaction 68  order: none
+  #4  Critic  WAITING  satisfaction 88  order: none
+Tasks available:
+  Host:   4 to seat (2 free table(s))
+  Waiter: 4 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Seat Customer #4 at Table 1
+  8. Seat Customer #4 at Table 2
+  9. Wait
+Enter 1-9: 9
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Seat Customer #4 at Table 1
+  8. Seat Customer #4 at Table 2
+  9. Wait
+Enter 1-9: 9
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 11 ---
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 11
+
+=== Turn 12 / 18 ===
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #1, #2, #3, #4
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #1  Regular  WAITING  satisfaction 12  order: none
+  #2  VIP  WAITING  satisfaction 60  order: none
+  #3  Regular  WAITING  satisfaction 60  order: none
+  #4  Critic  WAITING  satisfaction 76  order: none
+Tasks available:
+  Host:   4 to seat (2 free table(s))
+  Waiter: 4 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Seat Customer #4 at Table 1
+  8. Seat Customer #4 at Table 2
+  9. Wait
+Enter 1-9: 9
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Seat Customer #4 at Table 1
+  8. Seat Customer #4 at Table 2
+  9. Wait
+Enter 1-9: 9
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 12 ---
+Served: 0 | Paid: 0 | Unhappy departures: 0 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 12
+
+=== Turn 13 / 18 ===
+Regular Customer #5 [WAITING, satisfaction 100] arrives and joins the queue.
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #1, #2, #3, #4, #5
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #1  Regular  WAITING  satisfaction 4  order: none
+  #2  VIP  WAITING  satisfaction 55  order: none
+  #3  Regular  WAITING  satisfaction 52  order: none
+  #4  Critic  WAITING  satisfaction 64  order: none
+  #5  Regular  WAITING  satisfaction 100  order: none
+Tasks available:
+  Host:   5 to seat (2 free table(s))
+  Waiter: 5 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Seat Customer #4 at Table 1
+  8. Seat Customer #4 at Table 2
+  9. Seat Customer #5 at Table 1
+  10. Seat Customer #5 at Table 2
+  11. Wait
+Enter 1-11: 11
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #1 at Table 1
+  2. Seat Customer #1 at Table 2
+  3. Seat Customer #2 at Table 1
+  4. Seat Customer #2 at Table 2
+  5. Seat Customer #3 at Table 1
+  6. Seat Customer #3 at Table 2
+  7. Seat Customer #4 at Table 1
+  8. Seat Customer #4 at Table 2
+  9. Seat Customer #5 at Table 1
+  10. Seat Customer #5 at Table 2
+  11. Wait
+Enter 1-11: 11
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+Customer #1 ran out of patience and left.
+--- End of turn 13 ---
+Served: 0 | Paid: 0 | Unhappy departures: 1 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 13
+
+=== Turn 14 / 18 ===
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #2, #3, #4, #5
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #2  VIP  WAITING  satisfaction 50  order: none
+  #3  Regular  WAITING  satisfaction 44  order: none
+  #4  Critic  WAITING  satisfaction 52  order: none
+  #5  Regular  WAITING  satisfaction 92  order: none
+Tasks available:
+  Host:   4 to seat (2 free table(s))
+  Waiter: 4 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #2 at Table 1
+  2. Seat Customer #2 at Table 2
+  3. Seat Customer #3 at Table 1
+  4. Seat Customer #3 at Table 2
+  5. Seat Customer #4 at Table 1
+  6. Seat Customer #4 at Table 2
+  7. Seat Customer #5 at Table 1
+  8. Seat Customer #5 at Table 2
+  9. Wait
+Enter 1-9: 9
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #2 at Table 1
+  2. Seat Customer #2 at Table 2
+  3. Seat Customer #3 at Table 1
+  4. Seat Customer #3 at Table 2
+  5. Seat Customer #4 at Table 1
+  6. Seat Customer #4 at Table 2
+  7. Seat Customer #5 at Table 1
+  8. Seat Customer #5 at Table 2
+  9. Wait
+Enter 1-9: 9
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 14 ---
+Served: 0 | Paid: 0 | Unhappy departures: 1 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 14
+
+=== Turn 15 / 18 ===
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #2, #3, #4, #5
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #2  VIP  WAITING  satisfaction 45  order: none
+  #3  Regular  WAITING  satisfaction 36  order: none
+  #4  Critic  WAITING  satisfaction 40  order: none
+  #5  Regular  WAITING  satisfaction 84  order: none
+Tasks available:
+  Host:   4 to seat (2 free table(s))
+  Waiter: 4 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #2 at Table 1
+  2. Seat Customer #2 at Table 2
+  3. Seat Customer #3 at Table 1
+  4. Seat Customer #3 at Table 2
+  5. Seat Customer #4 at Table 1
+  6. Seat Customer #4 at Table 2
+  7. Seat Customer #5 at Table 1
+  8. Seat Customer #5 at Table 2
+  9. Wait
+Enter 1-9: 9
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #2 at Table 1
+  2. Seat Customer #2 at Table 2
+  3. Seat Customer #3 at Table 1
+  4. Seat Customer #3 at Table 2
+  5. Seat Customer #4 at Table 1
+  6. Seat Customer #4 at Table 2
+  7. Seat Customer #5 at Table 1
+  8. Seat Customer #5 at Table 2
+  9. Wait
+Enter 1-9: 9
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 15 ---
+Served: 0 | Paid: 0 | Unhappy departures: 1 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 15
+
+=== Turn 16 / 18 ===
+Regular Customer #6 [WAITING, satisfaction 100] arrives and joins the queue.
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #2, #3, #4, #5, #6
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #2  VIP  WAITING  satisfaction 40  order: none
+  #3  Regular  WAITING  satisfaction 28  order: none
+  #4  Critic  WAITING  satisfaction 28  order: none
+  #5  Regular  WAITING  satisfaction 76  order: none
+  #6  Regular  WAITING  satisfaction 100  order: none
+Tasks available:
+  Host:   5 to seat (2 free table(s))
+  Waiter: 5 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #2 at Table 1
+  2. Seat Customer #2 at Table 2
+  3. Seat Customer #3 at Table 1
+  4. Seat Customer #3 at Table 2
+  5. Seat Customer #4 at Table 1
+  6. Seat Customer #4 at Table 2
+  7. Seat Customer #5 at Table 1
+  8. Seat Customer #5 at Table 2
+  9. Seat Customer #6 at Table 1
+  10. Seat Customer #6 at Table 2
+  11. Wait
+Enter 1-11: 11
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #2 at Table 1
+  2. Seat Customer #2 at Table 2
+  3. Seat Customer #3 at Table 1
+  4. Seat Customer #3 at Table 2
+  5. Seat Customer #4 at Table 1
+  6. Seat Customer #4 at Table 2
+  7. Seat Customer #5 at Table 1
+  8. Seat Customer #5 at Table 2
+  9. Seat Customer #6 at Table 1
+  10. Seat Customer #6 at Table 2
+  11. Wait
+Enter 1-11: 11
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 16 ---
+Served: 0 | Paid: 0 | Unhappy departures: 1 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 16
+
+=== Turn 17 / 18 ===
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #2, #3, #4, #5, #6
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #2  VIP  WAITING  satisfaction 35  order: none
+  #3  Regular  WAITING  satisfaction 20  order: none
+  #4  Critic  WAITING  satisfaction 16  order: none
+  #5  Regular  WAITING  satisfaction 68  order: none
+  #6  Regular  WAITING  satisfaction 92  order: none
+Tasks available:
+  Host:   5 to seat (2 free table(s))
+  Waiter: 5 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #2 at Table 1
+  2. Seat Customer #2 at Table 2
+  3. Seat Customer #3 at Table 1
+  4. Seat Customer #3 at Table 2
+  5. Seat Customer #4 at Table 1
+  6. Seat Customer #4 at Table 2
+  7. Seat Customer #5 at Table 1
+  8. Seat Customer #5 at Table 2
+  9. Seat Customer #6 at Table 1
+  10. Seat Customer #6 at Table 2
+  11. Wait
+Enter 1-11: 11
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #2 at Table 1
+  2. Seat Customer #2 at Table 2
+  3. Seat Customer #3 at Table 1
+  4. Seat Customer #3 at Table 2
+  5. Seat Customer #4 at Table 1
+  6. Seat Customer #4 at Table 2
+  7. Seat Customer #5 at Table 1
+  8. Seat Customer #5 at Table 2
+  9. Seat Customer #6 at Table 1
+  10. Seat Customer #6 at Table 2
+  11. Wait
+Enter 1-11: 11
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+--- End of turn 17 ---
+Served: 0 | Paid: 0 | Unhappy departures: 1 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 17
+
+=== Turn 18 / 18 ===
+Revenue: $0.00 | Avg satisfaction (paid): N/A
+Happy Hour: available
+Waiting queue: #2, #3, #4, #5, #6
+Tables:
+  Table 1 (free)
+  Table 2 (free)
+Customers:
+  #2  VIP  WAITING  satisfaction 30  order: none
+  #3  Regular  WAITING  satisfaction 12  order: none
+  #4  Critic  WAITING  satisfaction 4  order: none
+  #5  Regular  WAITING  satisfaction 60  order: none
+  #6  Regular  WAITING  satisfaction 84  order: none
+Tasks available:
+  Host:   5 to seat (2 free table(s))
+  Waiter: 5 to seat (2 free table(s)), 0 order(s) to take, 0 order(s) to serve
+  Chef:   0 order(s) in the kitchen
+  Cashier (automatic): 0 customer(s) ready to pay
+Switch on Happy Hour now? (once per game, lasts this turn and next)
+  1. Yes
+  2. No
+Enter 1-2: 2
+Host: choose a task
+  1. Seat Customer #2 at Table 1
+  2. Seat Customer #2 at Table 2
+  3. Seat Customer #3 at Table 1
+  4. Seat Customer #3 at Table 2
+  5. Seat Customer #4 at Table 1
+  6. Seat Customer #4 at Table 2
+  7. Seat Customer #5 at Table 1
+  8. Seat Customer #5 at Table 2
+  9. Seat Customer #6 at Table 1
+  10. Seat Customer #6 at Table 2
+  11. Wait
+Enter 1-11: 11
+Waits this turn.
+Waiter: choose a task
+  1. Seat Customer #2 at Table 1
+  2. Seat Customer #2 at Table 2
+  3. Seat Customer #3 at Table 1
+  4. Seat Customer #3 at Table 2
+  5. Seat Customer #4 at Table 1
+  6. Seat Customer #4 at Table 2
+  7. Seat Customer #5 at Table 1
+  8. Seat Customer #5 at Table 2
+  9. Seat Customer #6 at Table 1
+  10. Seat Customer #6 at Table 2
+  11. Wait
+Enter 1-11: 11
+Waits this turn.
+Chef: choose a task
+  1. Wait
+Enter 1-1: 1
+Waits this turn.
+Customer #4 ran out of patience and left.
+--- End of turn 18 ---
+Served: 0 | Paid: 0 | Unhappy departures: 2 | Revenue: $0.00 | Avg satisfaction (paid): N/A | Turns used: 18
+
+=== Final result ===
+  Paid customers:          0        (target at least 4) NOT MET
+  Revenue:                 $0.00    (target at least $45.00) NOT MET
+  Avg satisfaction (paid): N/A      (target at least 60) NOT MET
+Unhappy departures: 2
+DEFEAT
