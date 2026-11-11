@@ -112,20 +112,25 @@ Base setting with the Host, combos (#3 and #6) and Happy Hour.
 
 | Run | Inputs | Transcript | Result |
 |---|---|---|---|
-| Victory | `docs/test-runs/stage3-victory-input.txt` | `docs/test-runs/stage3-victory.txt` | To be recorded |
+| Victory | `docs/test-runs/stage3-victory-input.txt` | `docs/test-runs/stage3-victory.txt` | 5 paid, $77.10, avg 85.2 → VICTORY |
+| Defeat | `docs/test-runs/stage3-defeat-input.txt` | `docs/test-runs/stage3-defeat.txt` | 0 paid, 2 unhappy departures → DEFEAT |
+
+Victory run: the Host seats every arrival, then the Waiter serves a READY dish, else takes an order, else seats; the Chef cooks the oldest order. Happy Hour is switched on at turn 4: the VIP (#2) recovers to 100 and orders a Burger at $10.80 (10% VIP, then 20% Happy Hour, the brief's example). #3 orders the Salad + Pasta combo ($24.30, 3 units) after Happy Hour has ended, so it pays full combo price. The Critic (#4) orders Pasta and gets +10 for fast service.
+Defeat run: every staff member waits and Happy Hour is never used; #1 leaves at the end of turn 13 and the Critic (#4, 12 per turn) at the end of turn 18.
+For comparison, playing the same way without using the Host (and without Happy Hour) gives only 4 paid customers ($64.80), so the Host lets one more customer finish in 18 turns.
 
 Each input file has one choice per line. To replay a run exactly:
 
 **Windows (PowerShell)**
 ```
 javac -d out -sourcepath src src\restaurant\Main.java
-Get-Content docs\test-runs\stage1-victory-input.txt | java -Dreplay=true -cp out restaurant.Main
+Get-Content docs\test-runs\stage3-victory-input.txt | java -Dreplay=true -cp out restaurant.Main
 ```
 
 **macOS / Linux**
 ```
 javac -d out -sourcepath src src/restaurant/Main.java
-java -Dreplay=true -cp out restaurant.Main < docs/test-runs/stage1-victory-input.txt
+java -Dreplay=true -cp out restaurant.Main < docs/test-runs/stage3-victory-input.txt
 ```
 
 `-Dreplay=true` makes the game echo each input, so the output matches the transcript.
