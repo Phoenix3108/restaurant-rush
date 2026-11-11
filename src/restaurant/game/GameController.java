@@ -2,14 +2,17 @@ package restaurant.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 import restaurant.customer.Customer;
 import restaurant.floor.Table;
+import restaurant.menu.HappyHour;
 import restaurant.menu.Money;
 import restaurant.menu.Order;
 import restaurant.staff.ActionResult;
 import restaurant.staff.Chef;
+import restaurant.staff.Host;
 import restaurant.staff.Waiter;
 import restaurant.ui.ConsoleUI;
 
@@ -44,11 +47,15 @@ public class GameController {
         restaurant.getWaiter().startNewTurn();
         restaurant.getChef().startNewTurn();
         restaurant.getCashier().startNewTurn();
+        restaurant.getHost().startNewTurn();
 
         ui.showTurnHeader(turn, config.getMaxTurns());
         handleArrivals(turn);                // step 1
         ui.showTurnStart(turn, restaurant);   // shown after arrival so the manager sees the new customer
-        handleWaiterChoice(turn);             // step 2 + 3: Waiter acts first...
+        handleHappyHourChoice(turn);          // Stage 3: offered until used...
+        handleHappyHourRecovery(turn);        // ...and while active, waiting customers recover
+        handleHostChoice(turn);               // step 2 + 3: Host seats first,
+        handleWaiterChoice(turn);             // then the Waiter (options built after the Host acted)...
         handleChefChoice(turn);               // ...then Chef
         handleEatingAndPayment(turn);         // step 4
         handleWaitingAndAbandonment(turn);    // step 5
@@ -67,30 +74,72 @@ public class GameController {
         });
     }
 
+    /** Stage 3: once per game the manager may switch on Happy Hour (this turn and next). */
+    private void handleHappyHourChoice(int turn) {
+        HappyHour happyHour = restaurant.getHappyHour();
+        if (happyHour.hasBeenUsed()) {
+            return;
+        }
+        int choice = ui.askChoice("Switch on Happy Hour now? (once per game, lasts this turn and next)",
+                List.of("Yes", "No"));
+        if (choice == 0) {
+            happyHour.activate(turn);
+            ui.showMessage("Happy Hour ON: " + happyHour.remainingTurns(turn) + " turn(s) left");
+        }
+    }
+
+    /** Stage 3: while Happy Hour is active, every customer still waiting to be served recovers. */
+    private void handleHappyHourRecovery(int turn) {
+        if (!restaurant.getHappyHour().isActive(turn)) {
+            return;
+        }
+        for (Customer customer : restaurant.getActiveCustomers()) {
+            if (customer.recoverSatisfaction(GameConfig.HAPPY_HOUR_RECOVERY)) {
+                ui.showMessage("Happy Hour: Customer #" + customer.getId() + " recovers to satisfaction "
+                        + customer.getSatisfaction() + ".");
+            }
+        }
+    }
+
+    /** Stage 3 (Host): seat options only (every queued customer x every table), or Wait. */
+    private void handleHostChoice(int turn) {
+        Host host = restaurant.getHost();
+        List<String> labels = new ArrayList<>();
+        List<Supplier<ActionResult>> actions = new ArrayList<>();
+        addSeatOptions(labels, actions, (customer, table) -> host.seat(customer, table, restaurant.getQueue()));
+        runChoice("Host: choose a task", labels, actions);
+    }
+
+    /**
+     * Every queued customer x every table. Occupied tables are listed too, so the manager can
+     * pick an invalid seat and get the staff member's explanation (brief 3.4).
+     */
+    private void addSeatOptions(List<String> labels, List<Supplier<ActionResult>> actions,
+                                BiFunction<Customer, Table, ActionResult> seat) {
+        for (Customer customer : restaurant.getQueue().getCustomers()) {
+            for (Table table : restaurant.getTables()) {
+                labels.add("Seat Customer #" + customer.getId() + " at Table " + table.getId()
+                        + (table.isFree() ? "" : " (occupied)"));
+                actions.add(() -> seat.apply(customer, table));
+            }
+        }
+    }
+
     /**
      * Step 2/3 (Waiter): build options (seat X at table Y / take order of X / serve order Z / Wait),
      * ask ui.askChoice(...), call the Waiter method. If the result failed, ui.showError(reason)
      * and ask again (the task is not used up).
-     *
-     * Every table is listed for seating, occupied ones too, so the manager can pick an
-     * invalid seat and get the Waiter's explanation (brief 3.4).
      */
     private void handleWaiterChoice(int turn) {
         Waiter waiter = restaurant.getWaiter();
         List<String> labels = new ArrayList<>();
         List<Supplier<ActionResult>> actions = new ArrayList<>();
 
-        for (Customer customer : restaurant.getQueue().getCustomers()) {
-            for (Table table : restaurant.getTables()) {
-                labels.add("Seat Customer #" + customer.getId() + " at Table " + table.getId()
-                        + (table.isFree() ? "" : " (occupied)"));
-                actions.add(() -> waiter.seat(customer, table, restaurant.getQueue()));
-            }
-        }
+        addSeatOptions(labels, actions, (customer, table) -> waiter.seat(customer, table, restaurant.getQueue()));
         for (Customer customer : restaurant.getCustomersAwaitingOrder()) {
             labels.add("Take order of Customer #" + customer.getId()
                     + " at Table " + customer.getTable().getId());
-            actions.add(() -> waiter.takeOrder(customer, restaurant.getMenu(), turn));
+            actions.add(() -> waiter.takeOrder(customer, restaurant.getMenu(), turn, restaurant.getHappyHour()));
         }
         for (Order order : restaurant.getReadyOrders()) {
             labels.add("Serve Order #" + order.getId() + " (" + order.getItem().getName()

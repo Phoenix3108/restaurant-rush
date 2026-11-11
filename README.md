@@ -69,6 +69,13 @@ git push origin stage-1
 - Happy Hour recovery: on each active turn, customers still waiting for a table or food (WAITING, SEATED, ORDERED) recover 15 satisfaction at turn start, up to 100; customers already served are unaffected.
 - Host (Stage 3): seats at most 1 queued customer per turn, in addition to the Waiter's one task (the Waiter can still seat too). The Host acts before the Waiter. Host and Waiter use the same seating rules (`Staff.seatFromQueue`): a refused choice (customer not in queue, table occupied) does not use up the Host's task.
 - Display order: the turn display is shown after step 1 (arrivals) so the manager can see the new customer before choosing.
+- Turn order (Stage 3):
+  1. All four staff (Waiter, Chef, Cashier, Host) start a new turn.
+  2. Turn header, arrivals, then the turn display.
+  3. Happy Hour prompt "Switch on Happy Hour now?" (Yes/No), only while it has not been used.
+  4. If Happy Hour is active this turn, every customer still waiting for a table or food recovers 15 satisfaction (`GameConfig.HAPPY_HOUR_RECOVERY`).
+  5. Host choice, then Waiter choice (its options are built after the Host acts), then Chef choice.
+  6. Eating and payment, waiting penalty and leaving, then the end-of-turn summary (unchanged).
 - Customer types (Stage 2), one subclass of the abstract `Customer` each; the controller never checks the type:
 
   | Type | Satisfaction lost per waiting turn | Bill | Special |
@@ -99,6 +106,14 @@ Base setting with a VIP on turn 4 and a Critic on turn 10 (the other four are Re
 
 Same strategy as the Stage 1 victory run. The VIP (#2) orders a Burger billed at $13.50 (10% off) and loses only 5 per waiting turn; the Critic (#4) orders Pasta, is served as fast as the kitchen allows and gets +10 (52 → 62).
 
+### Stage 3
+
+Base setting with the Host, combos (#3 and #6) and Happy Hour.
+
+| Run | Inputs | Transcript | Result |
+|---|---|---|---|
+| Victory | `docs/test-runs/stage3-victory-input.txt` | `docs/test-runs/stage3-victory.txt` | To be recorded |
+
 Each input file has one choice per line. To replay a run exactly:
 
 **Windows (PowerShell)**
@@ -115,6 +130,7 @@ java -Dreplay=true -cp out restaurant.Main < docs/test-runs/stage1-victory-input
 
 `-Dreplay=true` makes the game echo each input, so the output matches the transcript.
 Stage 1 runs match their transcripts only on the `stage-1` tag (`git checkout stage-1`), because Stage 2 changes the customers on turns 4 and 10.
+Stage 2 runs match only on the `stage-2` tag (`git checkout stage-2`), because Stage 3 adds the Happy Hour and Host prompts, which change the inputs.
 
 ## Stage comparisons
 
@@ -146,7 +162,29 @@ Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-1...stage-
 
 ### Stage 2 → 3
 
-To be filled in.
+Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-2...stage-3
+
+**New files**
+
+| File | Why |
+|---|---|
+| `menu/ComboMeal` | A combo of two dishes with its own price and preparation units |
+| `menu/HappyHour` | 20% off for two turns, once per game |
+| `staff/Host` | Seats one queued customer per turn, before the Waiter |
+| `menu/ComboMealTest`, `menu/HappyHourTest`, `staff/HostTest` | Tests for the above |
+
+**Changed files**
+
+| File | What changed and why |
+|---|---|
+| `menu/Menu` | Separate combo list, so the Critic still picks Pasta |
+| `customer/Customer` | Combo choice rule and `recoverSatisfaction()` for Happy Hour |
+| `staff/Staff`, `staff/Waiter` | Shared seating via `seatFromQueue()` (used by the Host too); Happy Hour price in `takeOrder()` |
+| `game/Restaurant` | Holds the Host and the HappyHour |
+| `game/GameController` | Happy Hour prompt, recovery, Host step before the Waiter |
+| `game/GameConfig` | `HAPPY_HOUR_RECOVERY` constant (15) |
+| `ui/ConsoleUI` | Happy Hour status line and the Host in "Tasks available" |
+| Tests | Updated for the above |
 
 ## Video timestamps
 

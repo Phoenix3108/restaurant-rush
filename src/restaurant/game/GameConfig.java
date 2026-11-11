@@ -14,6 +14,9 @@ import restaurant.menu.Money;
  */
 public class GameConfig {
 
+    /** Satisfaction a waiting/seated/ordered customer recovers on each Happy Hour turn. */
+    public static final int HAPPY_HOUR_RECOVERY = 15;
+
     private final int maxTurns;
     private final int numTables;
     private final List<Arrival> arrivals;
