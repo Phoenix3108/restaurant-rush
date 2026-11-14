@@ -22,6 +22,7 @@ public class Menu {
         this.combos = List.copyOf(combos);
     }
 
+    /** The base-setting menu from brief 2.1. */
     public static Menu standardMenu() {
         MenuItem salad = new MenuItem("Salad", Money.dollars(9), 1);
         MenuItem burger = new MenuItem("Burger", Money.dollars(15), 1);
