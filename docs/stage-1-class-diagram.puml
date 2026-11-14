@@ -16,7 +16,7 @@ class Customer {
     + getId() : int
     + getSatisfaction() : int
     + chooseMenuItem(menu : Menu) : MenuItem
-    + applyWaitingPenalty() : void
+    + applyWaitingPenalty() : boolean
     + seatAt(table : Table) : void
     + placeOrder(order : Order) : void
     + serve(turn : int) : void
@@ -63,7 +63,7 @@ class Order {
     - billCents : int
     - status : OrderStatus
     + isReady() : boolean
-    + advancePreparation() : void
+    + advancePreparation() : boolean
     + markServed() : void
     + markPaid() : void
 }
@@ -89,10 +89,12 @@ class Main {
     {static} + main(args : String[]) : void
 }
 class ConsoleUI
-class Arrival {
+class Arrival <<record>> {
     + turn : int
-    + regular(turn : int) : Arrival
+    + factory : CustomerFactory
+    {static} + regular(turn : int) : Arrival
 }
+
 interface CustomerFactory {
     + create(id : int, arrivalTurn : int) : Customer
 }
@@ -114,12 +116,12 @@ Staff <|-- Cashier
 Menu "1" *-- "1..*" MenuItem
 WaitingQueue "1" o-- "0..*" Customer
 Customer --> Table
-Customer --> Order
+Customer "1" --> "0..1" Order
 Order --> MenuItem
 
 Restaurant *-- Menu
 Restaurant *-- WaitingQueue
-Restaurant *-- Table
+Restaurant "1" *-- "1..*" Table
 Restaurant o-- Customer
 Restaurant --> Waiter
 Restaurant --> Chef

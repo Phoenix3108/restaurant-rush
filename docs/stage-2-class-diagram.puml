@@ -18,10 +18,12 @@ abstract class Customer {
     + getTypeLabel() : String
     + getSatisfactionLossPerTurn() : int
     + chooseMenuItem(menu : Menu) : MenuItem
-    + applyWaitingPenalty() : void
+    + applyWaitingPenalty() : boolean
     + seatAt(table : Table) : void
     + placeOrder(order : Order) : void
     + serve(turn : int) : void
+    + computeBillCents(item : MenuItem) : int
+    # onServed(currentTurn : int) : void
 }
 
 class RegularCustomer {
@@ -35,6 +37,7 @@ class VIPCustomer {
     - DISCOUNT_PERCENT : int = 10
     + getTypeLabel() : String
     + getSatisfactionLossPerTurn() : int
+    + computeBillCents(item : MenuItem) : int
 }
 
 class CriticCustomer {
@@ -43,6 +46,7 @@ class CriticCustomer {
     + getTypeLabel() : String
     + getSatisfactionLossPerTurn() : int
     + chooseMenuItem(menu : Menu) : MenuItem
+    # onServed(currentTurn : int) : void
 }
 
 enum CustomerState
@@ -66,6 +70,7 @@ class Menu {
     + standardMenu() : Menu
     + getItems() : List<MenuItem>
     + getItem(index : int) : MenuItem
+    + getMostExpensive() : MenuItem
 }
 
 class MenuItem {
@@ -84,7 +89,7 @@ class Order {
     - billCents : int
     - status : OrderStatus
     + isReady() : boolean
-    + advancePreparation() : void
+    + advancePreparation() : boolean
     + markServed() : void
     + markPaid() : void
 }
@@ -129,13 +134,13 @@ Staff <|-- Cashier
 
 Menu "1" *-- "1..*" MenuItem
 WaitingQueue "1" o-- "0..*" Customer
-Customer --> Table
-Customer --> Order
+Customer "0..1" --> "1" Table
+Customer "1" --> "0..1" Order
 Order --> MenuItem
 
 Restaurant *-- Menu
 Restaurant *-- WaitingQueue
-Restaurant *-- Table
+Restaurant "1" *-- "1..*" Table
 Restaurant o-- Customer
 Restaurant --> Waiter
 Restaurant --> Chef

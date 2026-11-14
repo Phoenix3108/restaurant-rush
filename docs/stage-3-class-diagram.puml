@@ -12,16 +12,35 @@ abstract class Customer {
     - state : CustomerState
     - table : Table
     - order : Order
+    + getId() : int
     + getTypeLabel() : String
     + getSatisfactionLossPerTurn() : int
     + chooseMenuItem(menu : Menu) : MenuItem
-    + applyWaitingPenalty() : void
+    + applyWaitingPenalty() : boolean
+    + recoverSatisfaction(points : int) : boolean
+    + computeBillCents(item : MenuItem) : int
+    # onServed(currentTurn : int) : void
     + placeOrder(order : Order) : void
 }
 
-class RegularCustomer
-class VIPCustomer
-class CriticCustomer
+
+class RegularCustomer {
+    + getTypeLabel() : String
+    + getSatisfactionLossPerTurn() : int
+}
+
+class VIPCustomer {
+    + getTypeLabel() : String
+    + getSatisfactionLossPerTurn() : int
+    + computeBillCents(item : MenuItem) : int
+}
+
+class CriticCustomer {
+    + getTypeLabel() : String
+    + getSatisfactionLossPerTurn() : int
+    + chooseMenuItem(menu : Menu) : MenuItem
+    # onServed(currentTurn : int) : void
+}
 
 Customer <|-- RegularCustomer
 Customer <|-- VIPCustomer
@@ -47,7 +66,7 @@ class Chef {
 }
 
 class Cashier {
-    + collectPayment(customers : List<Customer>, turn : int) : ActionResult
+    + collectPayment(customers : List<Customer>, turn : int) : Customer
 }
 
 class Host {
@@ -67,6 +86,7 @@ class Menu {
     + getCombos() : List<ComboMeal>
     + getItem(index : int) : MenuItem
     + getCombo(index : int) : ComboMeal
+    + getMostExpensive() : MenuItem
 }
 
 class MenuItem {
@@ -88,7 +108,7 @@ class ComboMeal {
 class HappyHour {
     - used : boolean
     - activationTurn : int
-    + activate(turn : int) : void
+    + activate(turn : int) : boolean
     + hasBeenUsed() : boolean
     + isActive(turn : int) : boolean
     + remainingTurns(turn : int) : int
@@ -107,7 +127,7 @@ class Order {
     - billCents : int
     - status : OrderStatus
     + isReady() : boolean
-    + advancePreparation() : void
+    + advancePreparation() : boolean
     + markServed() : void
     + markPaid() : void
 }
@@ -170,16 +190,17 @@ class Money {
 
 Restaurant *-- Menu : composition
 Restaurant *-- WaitingQueue : composition
-Restaurant *-- Table : composition
+Restaurant "1" *-- "1..*" Table
 Restaurant *-- Waiter : composition
 Restaurant *-- Chef : composition
 Restaurant *-- Cashier : composition
 Restaurant *-- Host : composition
 Restaurant *-- HappyHour : composition
 Restaurant o-- Customer
+WaitingQueue "1" o-- "0..*" Customer
 
-Customer --> Table
-Customer --> Order
+Customer "0..1" --> "0..1" Table
+Customer "1" --> "0..1" Order
 Order --> MenuItem
 
 GameController --> Restaurant
