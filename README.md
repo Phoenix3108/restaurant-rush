@@ -49,7 +49,7 @@ These rules involve more than one part, so every part follows them.
 - **Chef can cook an order taken this same turn.**
 - **Eating takes one full turn.** Served on turn *t* → `EATING`; on turn *t+1* (step 4) → `READY_TO_PAY`; pays on turn *t+2* at the earliest.
 - **Cashier:** at most one payment per turn, oldest `READY_TO_PAY` first. Payment marks order and customer PAID, frees the table and adds the bill to revenue.
-- **Satisfaction loss (step 5):** only `WAITING`, `SEATED` and `ORDERED` customers lose 8 points (min 0). At 0 they leave: cancel the unfinished order, free the table, remove from the queue.
+- **Satisfaction loss (step 5):** only `WAITING`, `SEATED` and `ORDERED` customers lose satisfaction (Regular 8, VIP 5, Critic 12) with minimum 0 points. At 0 they leave: cancel the unfinished order, free the table, remove from the queue.
 - **Invalid choice:** return `ActionResult.fail(reason)`, don't call `markActed()`, and let the manager choose again.
 - **Money:** always integer cents; format with `Money.format(cents)`.
 - **Bill is locked when the order is taken** (`Order.getBillCents()`).
@@ -180,12 +180,13 @@ Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-1...stage-
 | `ui/ConsoleUI` | Shows the customer type |
 | `menu/OrderTest`, `menu/MenuTest`, `menu/MoneyTest` | Updated tests |
 
-**What still works?**
+**What still works? (Stage 1 → 2)**
 
-- Regular customers behave exactly as in Stage 1: `RegularCustomer` keeps the 8-point loss and full price, so the brief's worked example (3.3) gives the same result (seated 92 → pays $18.00 at 76 on turn 6).
-- Only the arrival list changed (`GameConfig`); the turn sequence in `GameController` and the staff classes were not changed for the new customer types.
-- The Stage 1 victory and defeat runs still replay exactly at `stage-1`, and the Stage 2 victory run (5 paid, $73.50, avg 77.6) reaches the same targets with the same strategy.
-- Stage 1 tests (`OrderTest`, `MenuTest`, `MoneyTest`) still pass at `stage-2`.
+- **Order lifecycle:** all 25 `OrderTest` checks still pass. Two lines now use `new RegularCustomer(...)`, because `Customer` became abstract.
+- **Menu and money:** the 10 `MenuTest` and 6 `MoneyTest` checks from Stage 1 still pass, plus new ones (13 and 10 in total).
+- **Regular customers:** same rules as Stage 1 (lose 8 per waiting turn, pay full price), now in `RegularCustomer` and checked by `CustomerTest`.
+- **Game loop:** `GameController` did not change. The Stage 2 victory run follows the same timing rules (a dish finished this turn is served next turn at the earliest, eating takes one full turn, one payment per turn).
+- **Unit tests:** 41 passing at `stage-1` → 70 passing at `stage-2`, none failing.
 
 ### Stage 2 → 3
 
@@ -213,12 +214,16 @@ Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-2...stage-
 | `ui/ConsoleUI` | Happy Hour status line and the Host in "Tasks available" |
 | Tests | Updated for the above |
 
-**What still works?**
+**What still works? (Stage 2 → 3)**
 
-- Moving the seating rules into `Staff.seatFromQueue()` did not change what the Waiter does: replaying the Stage 1 and Stage 2 inputs on the Stage 3 code (before the new prompts were added) gave output identical to the code before the change, including the refused seat at an occupied table.
-- VIP and Critic behaviour is unchanged: the VIP still pays $13.50 for a Burger outside Happy Hour, and the Critic still orders Pasta (combos are kept in a separate list in `Menu`) and gets +10 for fast service in the Stage 3 victory run.
-- The old 3-argument `Waiter.takeOrder()` still works and never applies Happy Hour (`WaiterTest`).
-- All earlier tests still pass at `stage-3`, alongside the new `ComboMealTest`, `HappyHourTest` and `HostTest`.
+- **Order lifecycle:** all 25 `OrderTest` checks still pass, unchanged.
+- **Menu and money:** all earlier checks still pass; `getMostExpensive()` still returns Pasta even with combos added, so the Critic is unaffected.
+- **Customer types:** all 20 Stage 2 `CustomerTest` checks still pass (31 in total). The VIP still pays $13.50 for a Burger outside Happy Hour, and the Critic's +10 for fast service still passes in `WaiterTest`.
+- **Seating:** moving the seating rules from `Waiter` into `Staff.seatFromQueue()` (shared with the Host) did not change the Waiter's behaviour: replaying the earlier inputs gave identical game output, including the refused seat at an occupied table.
+- **Game loop:** same six steps; the Happy Hour prompt and the Host step are added before the Waiter. The old three-argument `takeOrder()` still works and never applies Happy Hour.
+- **Unit tests:** 70 passing at `stage-2` → 125 passing at `stage-3`, none failing.
+
+Note: each stage's recorded runs replay exactly only on their own tag, because later stages change the inputs on purpose (different customers on turns 4 and 10 in Stage 2; new Happy Hour and Host prompts, and customer #3 ordering a combo, in Stage 3).
 
 ## AI history
 
