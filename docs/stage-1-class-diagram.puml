@@ -1,0 +1,140 @@
+@startuml Stage1ClassDiagram
+
+top to bottom direction
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam nodesep 35
+skinparam ranksep 40
+hide empty members
+
+class Customer {
+    - id : int
+    - satisfaction : int
+    - state : CustomerState
+    - table : Table
+    - order : Order
+    + getId() : int
+    + getSatisfaction() : int
+    + chooseMenuItem(menu : Menu) : MenuItem
+    + applyWaitingPenalty() : void
+    + seatAt(table : Table) : void
+    + placeOrder(order : Order) : void
+    + serve(turn : int) : void
+    + canPay(turn : int) : boolean
+}
+
+enum CustomerState
+
+class WaitingQueue {
+    - customers : List<Customer>
+    + add(customer : Customer) : void
+    + remove(customer : Customer) : void
+    + isEmpty() : boolean
+}
+
+class Table {
+    - id : int
+    - occupant : Customer
+    + isFree() : boolean
+    + assign(customer : Customer) : void
+    + release() : void
+}
+
+class Menu {
+    - items : List<MenuItem>
+    + standardMenu() : Menu
+    + getItems() : List<MenuItem>
+    + getItem(index : int) : MenuItem
+}
+
+class MenuItem {
+    - name : String
+    - priceCents : int
+    - prepUnits : int
+    + getName() : String
+    + getPriceCents() : int
+    + getPrepUnits() : int
+}
+
+class Order {
+    - id : int
+    - customer : Customer
+    - item : MenuItem
+    - billCents : int
+    - status : OrderStatus
+    + isReady() : boolean
+    + advancePreparation() : void
+    + markServed() : void
+    + markPaid() : void
+}
+
+enum OrderStatus
+
+abstract class Staff {
+    - role : String
+    - actedThisTurn : boolean
+    + getRole() : String
+    + hasActedThisTurn() : boolean
+    + startNewTurn() : void
+}
+
+class Waiter
+class Chef
+class Cashier
+
+class Restaurant
+class GameConfig
+class GameController
+class Main {
+    {static} + main(args : String[]) : void
+}
+class ConsoleUI
+class Arrival {
+    + turn : int
+    + regular(turn : int) : Arrival
+}
+interface CustomerFactory {
+    + create(id : int, arrivalTurn : int) : Customer
+}
+class ActionResult {
+    + ok(message : String) : ActionResult
+    + fail(message : String) : ActionResult
+    + isSuccess() : boolean
+    + getMessage() : String
+}
+class Money {
+    {static} + dollars(wholeDollars : int) : int
+    {static} + format(cents : int) : String
+}
+
+Staff <|-- Waiter
+Staff <|-- Chef
+Staff <|-- Cashier
+
+Menu "1" *-- "1..*" MenuItem
+WaitingQueue "1" o-- "0..*" Customer
+Customer --> Table
+Customer --> Order
+Order --> MenuItem
+
+Restaurant *-- Menu
+Restaurant *-- WaitingQueue
+Restaurant *-- Table
+Restaurant o-- Customer
+Restaurant --> Waiter
+Restaurant --> Chef
+Restaurant --> Cashier
+
+GameController --> GameConfig
+GameController --> Restaurant
+GameController --> ConsoleUI
+GameConfig --> Arrival
+Arrival --> CustomerFactory
+Waiter --> ActionResult
+Chef --> ActionResult
+Cashier --> ActionResult
+Main --> GameConfig
+Main --> GameController
+Main --> ConsoleUI
+
+@enduml

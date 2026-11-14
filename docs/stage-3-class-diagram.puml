@@ -1,0 +1,217 @@
+@startuml Stage3ClassDiagram
+
+top to bottom direction
+skinparam classAttributeIconSize 0
+skinparam nodesep 30
+skinparam ranksep 35
+hide empty members
+
+abstract class Customer {
+    - id : int
+    - satisfaction : int
+    - state : CustomerState
+    - table : Table
+    - order : Order
+    + getTypeLabel() : String
+    + getSatisfactionLossPerTurn() : int
+    + chooseMenuItem(menu : Menu) : MenuItem
+    + applyWaitingPenalty() : void
+    + placeOrder(order : Order) : void
+}
+
+class RegularCustomer
+class VIPCustomer
+class CriticCustomer
+
+Customer <|-- RegularCustomer
+Customer <|-- VIPCustomer
+Customer <|-- CriticCustomer
+
+abstract class Staff {
+    - role : String
+    - actedThisTurn : boolean
+    + getRole() : String
+    + startNewTurn() : void
+    # seatFromQueue(customer : Customer, table : Table, queue : WaitingQueue) : ActionResult
+}
+
+class Waiter {
+    + seat(customer : Customer, table : Table, queue : WaitingQueue) : ActionResult
+    + takeOrder(customer : Customer, menu : Menu, turn : int) : ActionResult
+    + takeOrder(customer : Customer, menu : Menu, turn : int, happyHour : HappyHour) : ActionResult
+    + serve(order : Order, turn : int) : ActionResult
+}
+
+class Chef {
+    + prepare(order : Order) : ActionResult
+}
+
+class Cashier {
+    + collectPayment(customers : List<Customer>, turn : int) : ActionResult
+}
+
+class Host {
+    + seat(customer : Customer, table : Table, queue : WaitingQueue) : ActionResult
+}
+
+Staff <|-- Waiter
+Staff <|-- Chef
+Staff <|-- Cashier
+Staff <|-- Host
+
+class Menu {
+    - items : List<MenuItem>
+    - combos : List<ComboMeal>
+    + standardMenu() : Menu
+    + getItems() : List<MenuItem>
+    + getCombos() : List<ComboMeal>
+    + getItem(index : int) : MenuItem
+    + getCombo(index : int) : ComboMeal
+}
+
+class MenuItem {
+    - name : String
+    - priceCents : int
+    - prepUnits : int
+    + getName() : String
+    + getPriceCents() : int
+    + getPrepUnits() : int
+}
+
+class ComboMeal {
+    - first : MenuItem
+    - second : MenuItem
+    + getFirst() : MenuItem
+    + getSecond() : MenuItem
+}
+
+class HappyHour {
+    - used : boolean
+    - activationTurn : int
+    + activate(turn : int) : void
+    + hasBeenUsed() : boolean
+    + isActive(turn : int) : boolean
+    + remainingTurns(turn : int) : int
+    + apply(cents : int, turn : int) : int
+}
+
+MenuItem <|-- ComboMeal
+Menu "1" *-- "1..*" MenuItem
+Menu "1" o-- "0..*" ComboMeal
+ComboMeal --> "2" MenuItem
+
+class Order {
+    - id : int
+    - customer : Customer
+    - item : MenuItem
+    - billCents : int
+    - status : OrderStatus
+    + isReady() : boolean
+    + advancePreparation() : void
+    + markServed() : void
+    + markPaid() : void
+}
+
+class Table {
+    - id : int
+    - occupant : Customer
+    + isFree() : boolean
+    + assign(customer : Customer) : void
+    + release() : void
+}
+
+class WaitingQueue {
+    - customers : List<Customer>
+    + add(customer : Customer) : void
+    + remove(customer : Customer) : void
+    + isEmpty() : boolean
+}
+
+enum CustomerState
+enum OrderStatus
+
+class Restaurant {
+    - menu : Menu
+    - tables : List<Table>
+    - queue : WaitingQueue
+    - customers : List<Customer>
+    - waiter : Waiter
+    - chef : Chef
+    - cashier : Cashier
+    - host : Host
+    - happyHour : HappyHour
+    - revenueCents : int
+    + getMenu() : Menu
+    + getHost() : Host
+    + getHappyHour() : HappyHour
+    + addArrival(customer : Customer) : void
+    + recordPayment(customer : Customer) : void
+}
+
+class GameController
+class Main {
+    {static} + main(args : String[]) : void
+}
+class GameConfig
+class ConsoleUI
+class Arrival
+interface CustomerFactory
+class ActionResult {
+    + ok(message : String) : ActionResult
+    + fail(message : String) : ActionResult
+    + isSuccess() : boolean
+    + getMessage() : String
+}
+class Money {
+    {static} + dollars(wholeDollars : int) : int
+    {static} + format(cents : int) : String
+    {static} + percentOff(cents : int, percent : int) : int
+}
+
+Restaurant *-- Menu : composition
+Restaurant *-- WaitingQueue : composition
+Restaurant *-- Table : composition
+Restaurant *-- Waiter : composition
+Restaurant *-- Chef : composition
+Restaurant *-- Cashier : composition
+Restaurant *-- Host : composition
+Restaurant *-- HappyHour : composition
+Restaurant o-- Customer
+
+Customer --> Table
+Customer --> Order
+Order --> MenuItem
+
+GameController --> Restaurant
+Main --> GameConfig
+Main --> GameController
+Main --> ConsoleUI
+GameController --> GameConfig
+GameController --> ConsoleUI
+GameConfig --> Arrival
+Arrival --> CustomerFactory
+
+Waiter --> ActionResult
+Host --> ActionResult
+Chef --> ActionResult
+Cashier --> ActionResult
+
+note right of Customer
+  POLYMORPHISM
+  Customer subclasses override
+  customer-specific behaviour.
+end note
+
+note left of Restaurant
+  COMPOSITION
+  Restaurant owns its menu, tables,
+  staff, queue and HappyHour.
+end note
+
+note bottom of Menu
+  ENCAPSULATION
+  Private fields are accessed
+  through public methods.
+end note
+
+@enduml
