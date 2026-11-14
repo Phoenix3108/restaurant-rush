@@ -2,6 +2,16 @@
 
 SC2002 group project: a turn-based restaurant management game in Java (command line).
 
+**Repository:** https://github.com/Phoenix3108/restaurant-rush
+
+| Stage | Tag (runnable snapshot) | Adds |
+|---|---|---|
+| 1 Basic operation | [`stage-1`](https://github.com/Phoenix3108/restaurant-rush/tree/stage-1) | Regular customers, menu, Waiter, Chef, Cashier, full turn sequence, both endings |
+| 2 Customer behaviour | [`stage-2`](https://github.com/Phoenix3108/restaurant-rush/tree/stage-2) | VIP and Critic customers |
+| 3 New role and menu policy | [`stage-3`](https://github.com/Phoenix3108/restaurant-rush/tree/stage-3) | Host, ComboMeal, Happy Hour |
+
+To run an earlier stage: `git checkout stage-1` (or `stage-2`), then `./run.sh`. `git checkout main` returns to Stage 3.
+
 ## Build and run
 
 Requires JDK 17 or newer. Run from the repo root.
@@ -22,21 +32,18 @@ javac -d out $(find src -name "*.java")
 java -cp out restaurant.Main
 ```
 
-## Who owns what (Stage 1)
+## Who owns what
 
-| Part | Package / files | Owner |
-|---|---|---|
-| 1 Menu & Orders | `restaurant.menu`: `MenuItem`, `Menu`, `Order`, `OrderStatus`, `Money` | Guru |
-| 2 Customers | `restaurant.customer`: `Customer`, `CustomerState`, `WaitingQueue` | Ram |
-| 3 Staff & Tables | `restaurant.staff`: `Staff`, `Waiter`, `Chef`, `Cashier`, `ActionResult`; `restaurant.floor`: `Table` | Dylan |
-| 4 Game loop & CLI | `restaurant.game`: `GameController`, `Restaurant`, `GameConfig`; `restaurant.ui`: `ConsoleUI` | Ani |
-
-Each method you own is marked `// TODO(Part N)`. Search the code for your part number.
-**Don't rename or change the signature of a method someone else calls** without telling the group first.
+| Part | Owner | Stage 1 | Stage 2 | Stage 3 |
+|---|---|---|---|---|
+| 1 Menu & Orders | Guru | `MenuItem`, `Menu`, `Order`, `OrderStatus`, `Money` | `Money.percentOff()`, `Menu.getMostExpensive()` | `ComboMeal`, `HappyHour` |
+| 2 Customers | Ram | `Customer`, `CustomerState`, `WaitingQueue` | Abstract `Customer`, `RegularCustomer`, `VIPCustomer` | `recoverSatisfaction()` for Happy Hour |
+| 3 Staff & Tables | Dylan | `Staff`, `Waiter`, `Chef`, `Cashier`, `ActionResult`, `Table` | `CriticCustomer`, `WaiterTest` | `Host`, shared `Staff.seatFromQueue()`, Happy Hour price in `Waiter.takeOrder()`, `HostTest` |
+| 4 Game loop & CLI | Ani | `GameController`, `Restaurant`, `GameConfig`, `ConsoleUI` | `Arrival`, `CustomerFactory`, VIP/Critic arrivals, type display | Combo choice rule, Happy Hour prompt and recovery, Host step, test runs |
 
 ## Timing rules everyone must follow
 
-These rules involve more than one part. Get them right and the parts will fit together.
+These rules involve more than one part, so every part follows them.
 
 - **Waiter acts before Chef.** An order can be served only if it was already READY when the Waiter acts, so a dish finished this turn is served next turn at the earliest.
 - **Chef can cook an order taken this same turn.**
@@ -137,6 +144,14 @@ java -Dreplay=true -cp out restaurant.Main < docs/test-runs/stage3-victory-input
 Stage 1 runs match their transcripts only on the `stage-1` tag (`git checkout stage-1`), because Stage 2 changes the customers on turns 4 and 10.
 Stage 2 runs match only on the `stage-2` tag (`git checkout stage-2`), because Stage 3 adds the Happy Hour and Host prompts, which change the inputs.
 
+### Unit tests
+
+Each test class has its own `main` and prints PASS/FAIL. After `./run.sh` has compiled everything:
+```
+java -cp out restaurant.customer.CustomerTest
+```
+Same for `menu.MenuTest`, `menu.MoneyTest`, `menu.OrderTest`, `menu.ComboMealTest`, `menu.HappyHourTest`, `staff.WaiterTest` and `staff.HostTest`. At `stage-3` all 125 checks pass.
+
 ## Stage comparisons
 
 ### Stage 1 → 2
@@ -165,6 +180,13 @@ Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-1...stage-
 | `ui/ConsoleUI` | Shows the customer type |
 | `menu/OrderTest`, `menu/MenuTest`, `menu/MoneyTest` | Updated tests |
 
+**What still works?**
+
+- Regular customers behave exactly as in Stage 1: `RegularCustomer` keeps the 8-point loss and full price, so the brief's worked example (3.3) gives the same result (seated 92 → pays $18.00 at 76 on turn 6).
+- Only the arrival list changed (`GameConfig`); the turn sequence in `GameController` and the staff classes were not changed for the new customer types.
+- The Stage 1 victory and defeat runs still replay exactly at `stage-1`, and the Stage 2 victory run (5 paid, $73.50, avg 77.6) reaches the same targets with the same strategy.
+- Stage 1 tests (`OrderTest`, `MenuTest`, `MoneyTest`) still pass at `stage-2`.
+
 ### Stage 2 → 3
 
 Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-2...stage-3
@@ -191,6 +213,36 @@ Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-2...stage-
 | `ui/ConsoleUI` | Happy Hour status line and the Host in "Tasks available" |
 | Tests | Updated for the above |
 
-## Video timestamps
+**What still works?**
 
-To be filled in.
+- Moving the seating rules into `Staff.seatFromQueue()` did not change what the Waiter does: replaying the Stage 1 and Stage 2 inputs on the Stage 3 code (before the new prompts were added) gave output identical to the code before the change, including the refused seat at an occupied table.
+- VIP and Critic behaviour is unchanged: the VIP still pays $13.50 for a Burger outside Happy Hour, and the Critic still orders Pasta (combos are kept in a separate list in `Menu`) and gets +10 for fast service in the Stage 3 victory run.
+- The old 3-argument `Waiter.takeOrder()` still works and never applies Happy Hour (`WaiterTest`).
+- All earlier tests still pass at `stage-3`, alongside the new `ComboMealTest`, `HappyHourTest` and `HostTest`.
+
+## AI history
+
+Each member's full AI conversations, in order, are on their own branch:
+
+| Member | Branch | Stage 1 | Stage 2 | Stage 3 |
+|---|---|---|---|---|
+| Guru | `BRANCH` | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-1) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-2) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-3) |
+| Ram | `BRANCH` | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-1) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-2) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-3) |
+| Dylan | `BRANCH` | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-1) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-2) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-3) |
+| Ani | `BRANCH` | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-1) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-2) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-3) |
+
+## Video
+
+Link: VIDEO-LINK
+
+| # | Segment | Speaker | Start |
+|---|---|---|---|
+| 1 | The game launching from the project, overview of the three stages | Ani | 0:00 |
+| 2 | Manager choices when staff are constrained | Dylan | |
+| 3 | A dish going READY → SERVED → payment | Guru | |
+| 4 | VIP and Critic behaviour | Ram | |
+| 5 | Stage 3 features: Host, ComboMeal, Happy Hour | Dylan, Guru, Ani | |
+| 6 | One victory and one defeat (replays from `docs/test-runs`) | Ani | |
+| 7 | Stage tag comparisons and the class diagrams | Guru, Ani | |
+| 8 | The sequence diagram | Ani | |
+| 9 | Individual contributions and learning | Everyone | |
