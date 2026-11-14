@@ -219,7 +219,7 @@ Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-2...stage-
 - **Order lifecycle:** all 25 `OrderTest` checks still pass, unchanged.
 - **Menu and money:** all earlier checks still pass; `getMostExpensive()` still returns Pasta even with combos added, so the Critic is unaffected.
 - **Customer types:** all 20 Stage 2 `CustomerTest` checks still pass (31 in total). The VIP still pays $13.50 for a Burger outside Happy Hour, and the Critic's +10 for fast service still passes in `WaiterTest`.
-- **Seating:** moving the seating rules from `Waiter` into `Staff.seatFromQueue()` (shared with the Host) did not change the Waiter's behaviour: replaying the earlier inputs gave identical game output, including the refused seat at an occupied table.
+- **Seating:** moving the seating rules from `Waiter` into `Staff.seatFromQueue()` (shared with the Host) did not change the Waiter's behaviour: the Stage 1 defeat input, replayed on the code just before and just after this change (before the Stage 3 prompts were added), gave identical output for all 18 turns, including the refused seat at an occupied table. `WaiterTest` still passes after the change.
 - **Game loop:** same six steps; the Happy Hour prompt and the Host step are added before the Waiter. The old three-argument `takeOrder()` still works and never applies Happy Hour.
 - **Unit tests:** 70 passing at `stage-2` → 125 passing at `stage-3`, none failing.
 
