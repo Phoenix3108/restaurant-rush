@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VIP #2 Sequence Diagram</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 16px; background: #fff; color: #111; }
+  .bar { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; flex-wrap: wrap; }
+  button { padding: 6px 12px; font-size: 14px; cursor: pointer; }
+  #out svg { max-width: none !important; }
+  #err { color: #b00; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <strong>Stage 3 victory run: VIP Customer #2, turns 4 to 7</strong>
+  <button id="svgBtn">Download SVG</button>
+  <button id="pngBtn">Download PNG</button>
+</div>
+<div id="err"></div>
+<div id="out"></div>
+<script type="text/plain" id="src">
+sequenceDiagram
+    autonumber
+    actor P as Player
+    participant GC as ctl : GameController
+    participant UI as ui : ConsoleUI
+    participant HH as hh : HappyHour
+    participant H as host : Host
+    participant W as waiter : Waiter
+    participant CH as chef : Chef
+    participant CA as cashier : Cashier
+    participant V as vip2 : VIPCustomer
+    participant R as restaurant : Restaurant
+    participant CFG as config : GameConfig
+
+    loop for each turn: playTurn(turn), shown for turns 4 to 7
+        Note over GC,R: Turn 4. VIP #35;2 arrives (WAITING, satisfaction 100). Happy Hour not used yet. Table 2 free.
+
+        GC->>UI: askChoice("Switch on Happy Hour now?", [Yes, No])
+        UI->>P: print options, read input
+        P-->>UI: 1
+        UI-->>GC: 0
+        alt choice == 0 (Yes)
+            GC->>HH: activate(4)
+            HH-->>GC: true
+            GC->>UI: showMessage("Happy Hour ON: 2 turn(s) left")
+        else No
+            Note right of GC: Happy Hour stays available for a later turn
+        end
+
+        opt happyHour.isActive(4)
+            GC->>V: recoverSatisfaction(15)
+            V-->>GC: true (stays at 100)
+        end
+
+        GC->>UI: askChoice("Host: choose a task", options)
+        Note right of UI: Every askChoice prompts the Player the same way (steps 3 to 5)
+        UI-->>GC: 1 (Seat #35;2 at Table 2)
+        alt action chosen and it succeeds
+            GC->>H: seat(vip2, table2, queue)
+            H->>V: seatAt(table2)
+            Note right of V: SEATED
+            H-->>GC: ActionResult.ok
+            GC->>UI: showMessage("Host seated Customer #35;2 at Table 2")
+        else Wait chosen
+            GC->>UI: showMessage("Waits this turn.")
+        else action fails, e.g. Table 1 is occupied
+            GC->>UI: showError(reason), then askChoice again
+        end
+
+        GC->>UI: askChoice("Waiter: choose a task", options)
+        UI-->>GC: 0 (Take order of Customer #35;2)
+        GC->>W: takeOrder(vip2, menu, 4, hh)
+        W->>V: chooseMenuItem(menu)
+        V-->>W: Burger ($15.00)
+        W->>V: computeBillCents(Burger)
+        V-->>W: 1350 (VIP 10% off)
+        W->>HH: apply(1350, 4)
+        HH-->>W: 1080 (Happy Hour 20% off)
+        create participant O as order2 : Order
+        W->>O: new Order(vip2, Burger, 1080, 4)
+        W->>V: placeOrder(order2)
+        Note right of V: ORDERED, bill $10.80 locked in
+        W-->>GC: ActionResult.ok
+        GC->>UI: showMessage("Customer #35;2 orders Burger ($10.80, Happy Hour)")
+
+        GC->>UI: askChoice("Chef: choose a task", options)
+        UI-->>GC: 0 (Prepare Order #35;2)
+        GC->>CH: prepare(order2)
+        CH->>O: advancePreparation()
+        O-->>CH: true (READY, 1/1 units)
+        CH-->>GC: ActionResult.ok
+        GC->>UI: showMessage("Order #35;2 is now READY")
+        Note over GC,V: End of turn 4: waiting penalty, satisfaction 100 to 95
+
+        Note over GC,R: Turn 5. Happy Hour still active (1 turn left).
+        opt happyHour.isActive(5)
+            GC->>V: recoverSatisfaction(15)
+            V-->>GC: true (95 to 100)
+        end
+        GC->>UI: askChoice("Waiter: choose a task", options)
+        UI-->>GC: 0 (Serve Order #35;2)
+        GC->>W: serve(order2, 5)
+        W->>O: markServed()
+        Note right of O: SERVED
+        W->>V: serve(5)
+        Note right of V: EATING
+        W-->>GC: ActionResult.ok
+        GC->>UI: showMessage("Waiter served Burger to Customer #35;2")
+
+        Note over GC,R: Turn 6. Happy Hour over. Host, Waiter and Chef all Wait.
+        GC->>V: finishEatingIfDone(6)
+        V-->>GC: true
+        Note right of V: READY_TO_PAY
+        GC->>UI: showMessage("Customer #35;2 finished eating and is ready to pay.")
+
+        Note over GC,R: Turn 7. The Cashier acts automatically.
+        GC->>CA: collectPayment(activeCustomers, 7)
+        CA->>V: canPay(7)
+        V-->>CA: true
+        CA->>O: markPaid()
+        CA->>V: markPaid()
+        Note right of V: PAID, table released
+        CA-->>GC: vip2
+        opt paid != null
+            GC->>R: recordPayment(vip2)
+            Note right of R: revenue $9.00 to $19.80
+            GC->>UI: showMessage("Cashier: Customer #35;2 paid $10.80 (satisfaction 100)")
+        end
+    end
+
+    Note over GC,CFG: After turn 18: result check
+    GC->>GC: isVictory()
+    GC->>CFG: isPaidTargetMet(restaurant)
+    CFG-->>GC: true (5 paid, target 4)
+    GC->>CFG: isRevenueTargetMet(restaurant)
+    CFG-->>GC: true ($77.10, target $45.00)
+    GC->>CFG: isSatisfactionTargetMet(restaurant)
+    CFG-->>GC: true (85.2, target 60)
+    GC->>UI: showFinalResult(true, restaurant, config)
+    UI->>P: VICTORY
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({ startOnLoad: false, theme: 'default', sequence: { wrap: false, noteMargin: 8 } });
+  const src = document.getElementById('src').textContent;
+  let svgText = '';
+  mermaid.render('vip2seq', src).then(({ svg }) => {
+    svgText = svg;
+    document.getElementById('out').innerHTML = svg;
+  }).catch(e => { document.getElementById('err').textContent = String(e && e.message || e); });
+
+  function save(blob, name) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = name; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+  document.getElementById('svgBtn').onclick = () =>
+    save(new Blob([svgText], { type: 'image/svg+xml' }), 'vip2-sequence.svg');
+  document.getElementById('pngBtn').onclick = () => {
+    const el = document.querySelector('#out svg');
+    const box = el.viewBox.baseVal, scale = 1.5;
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas');
+      c.width = box.width * scale; c.height = box.height * scale;
+      const g = c.getContext('2d');
+      g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
+      g.drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob(b => save(b, 'vip2-sequence.png'), 'image/png');
+    };
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgText);
+  };
+</script>
+</body>
+</html>
