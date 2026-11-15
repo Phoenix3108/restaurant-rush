@@ -189,6 +189,12 @@ Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-1...stage-
 - **Game loop:** `GameController` did not change. The Stage 2 victory run follows the same timing rules (a dish finished this turn is served next turn at the earliest, eating takes one full turn, one payment per turn).
 - **Unit tests:** 41 passing at `stage-1` → 70 passing at `stage-2`, none failing.
 
+**Change map (non-test classes, 21 → 24):** 3 added, 6 modified, 15 unchanged.
+
+- Added: `RegularCustomer`, `VIPCustomer`, `CriticCustomer`
+- Modified: `Customer`, `CustomerFactory`, `GameConfig`, `Menu`, `Money`, `ConsoleUI`
+- Unchanged: `Main`, `CustomerState`, `WaitingQueue`, `Table`, `Arrival`, `GameController`, `Restaurant`, `MenuItem`, `Order`, `OrderStatus`, `ActionResult`, `Staff`, `Waiter`, `Chef`, `Cashier`. The new customer types needed no change to the game loop or any staff class.
+
 ### Stage 2 → 3
 
 Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-2...stage-3
@@ -224,20 +230,30 @@ Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-2...stage-
 - **Game loop:** same six steps; the Happy Hour prompt and the Host step are added before the Waiter. The old three-argument `takeOrder()` still works and never applies Happy Hour.
 - **Unit tests:** 70 passing at `stage-2` → 125 passing at `stage-3`, none failing.
 
+**Change map (non-test classes, 24 → 27):** 3 added, 8 modified, 16 unchanged.
+
+- Added: `ComboMeal`, `HappyHour`, `Host`
+- Modified: `Customer`, `GameConfig`, `GameController`, `Restaurant`, `Menu`, `Staff`, `Waiter`, `ConsoleUI`
+- Unchanged: `Main`, `CustomerState`, `WaitingQueue`, `RegularCustomer`, `VIPCustomer`, `CriticCustomer`, `Table`, `Arrival`, `CustomerFactory`, `MenuItem`, `Money`, `Order`, `OrderStatus`, `ActionResult`, `Chef`, `Cashier`. Combos needed no change to `Order`, `Chef` or `Cashier`, because `ComboMeal` is a `MenuItem`.
+
 Note: each stage's recorded runs replay exactly only on their own tag, because later stages change the inputs on purpose (different customers on turns 4 and 10 in Stage 2; new Happy Hour and Host prompts, and customer #3 ordering a combo, in Stage 3).
 
 ## Video
 
-Link: VIDEO-LINK
+Link: https://youtu.be/oHtRYOT1uCg
 
 | # | Segment | Speaker | Start |
 |---|---|---|---|
-| 1 | The game launching from the project, overview of the three stages | Ani | 0:00 |
-| 2 | Manager choices when staff are constrained | Dylan | |
-| 3 | A dish going READY → SERVED → payment | Guru | |
-| 4 | VIP and Critic behaviour | Ram | |
-| 5 | Stage 3 features: Host, ComboMeal, Happy Hour | Dylan, Guru, Ani | |
-| 6 | One victory and one defeat (replays from `docs/test-runs`) | Ani | |
-| 7 | Stage tag comparisons and the class diagrams | Guru, Ani | |
-| 8 | The sequence diagram | Ani | |
-| 9 | Individual contributions and learning | Everyone | |
+| 1 | The game launching from the project, overview of the three stages | Dylan | 0:00 |
+| 2 | Manager choices when staff are constrained (refused seat, Waiter's trade-off) | Dylan | 1:24 |
+| 3 | A dish going READY → SERVED → payment | Guru | 2:10 |
+| 4 | VIP and Critic behaviour | Ram | 3:17 |
+| 5 | Stage 3: Host | Dylan | 4:50 |
+| 6 | Stage 3: ComboMeal and Contribution: Guru| Guru | 5:03 |
+| 7 | One victory and one defeat (replays from `docs/test-runs`) | Ram | 5:24 |
+| 8 | Class diagrams for each stage | Guru | 6:16 |
+| 9 | Class diagrams: conclusion | Guru | 8:13 |
+| 10 | Stage changes and change map | Ram | 8:28 |
+| 11 | Sequence diagram, including Happy Hour (VIP #2, turns 4–7) and Contribution: Ani | Ani | 9:47 |
+| 12 | Contribution: Dylan | Dylan | 13:39 |
+| 13 | Contribution: Ram | Ram | 14:05 |
