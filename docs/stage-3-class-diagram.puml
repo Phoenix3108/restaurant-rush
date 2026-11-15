@@ -1,4 +1,5 @@
 @startuml Stage3ClassDiagram
+title Stage 3 – Restaurant Rush
 
 top to bottom direction
 skinparam classAttributeIconSize 0
@@ -8,6 +9,7 @@ hide empty members
 
 abstract class Customer {
     - id : int
+    - arrivalTurn : int
     - satisfaction : int
     - state : CustomerState
     - table : Table
@@ -20,9 +22,10 @@ abstract class Customer {
     + recoverSatisfaction(points : int) : boolean
     + computeBillCents(item : MenuItem) : int
     # onServed(currentTurn : int) : void
+    + seatAt(table : Table) : void
     + placeOrder(order : Order) : void
+    + serve(turn : int) : void
 }
-
 
 class RegularCustomer {
     + getTypeLabel() : String
@@ -147,8 +150,23 @@ class WaitingQueue {
     + isEmpty() : boolean
 }
 
-enum CustomerState
-enum OrderStatus
+enum CustomerState {
+    WAITING
+    SEATED
+    ORDERED
+    EATING
+    READY_TO_PAY
+    PAID
+    LEFT
+}
+
+enum OrderStatus {
+    IN_PREPARATION
+    READY
+    SERVED
+    PAID
+    CANCELLED
+}
 
 class Restaurant {
     - menu : Menu
@@ -176,12 +194,14 @@ class GameConfig
 class ConsoleUI
 class Arrival
 interface CustomerFactory
+
 class ActionResult {
     + ok(message : String) : ActionResult
     + fail(message : String) : ActionResult
     + isSuccess() : boolean
     + getMessage() : String
 }
+
 class Money {
     {static} + dollars(wholeDollars : int) : int
     {static} + format(cents : int) : String
