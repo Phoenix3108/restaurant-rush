@@ -23,4 +23,4 @@ I owned Part 4: the game loop and the console interface (`GameController`, `Rest
 
 ## What I would do differently
 
-- Java is too complicated and verbose for my taste, i prefer python or even JavaScript as I have more experience with those languages
+- Java is too verbose for my taste, i prefer python or even JavaScript as I have more experience with those languages
