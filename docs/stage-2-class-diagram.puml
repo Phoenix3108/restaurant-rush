@@ -1,0 +1,162 @@
+@startuml Stage2ClassDiagram
+
+top to bottom direction
+skinparam classAttributeIconSize 0
+skinparam nodesep 30
+skinparam ranksep 35
+hide empty members
+
+abstract class Customer {
+    - id : int
+    - arrivalTurn : int
+    - satisfaction : int
+    - state : CustomerState
+    - table : Table
+    - order : Order
+    + getId() : int
+    + getSatisfaction() : int
+    + getTypeLabel() : String
+    + getSatisfactionLossPerTurn() : int
+    + chooseMenuItem(menu : Menu) : MenuItem
+    + applyWaitingPenalty() : boolean
+    + seatAt(table : Table) : void
+    + placeOrder(order : Order) : void
+    + serve(turn : int) : void
+    + computeBillCents(item : MenuItem) : int
+    # onServed(currentTurn : int) : void
+}
+
+class RegularCustomer {
+    - LOSS_PER_TURN : int = 8
+    + getTypeLabel() : String
+    + getSatisfactionLossPerTurn() : int
+}
+
+class VIPCustomer {
+    - LOSS_PER_TURN : int = 5
+    - DISCOUNT_PERCENT : int = 10
+    + getTypeLabel() : String
+    + getSatisfactionLossPerTurn() : int
+    + computeBillCents(item : MenuItem) : int
+}
+
+class CriticCustomer {
+    - LOSS_PER_TURN : int = 12
+    - REACTION_POINTS : int = 10
+    + getTypeLabel() : String
+    + getSatisfactionLossPerTurn() : int
+    + chooseMenuItem(menu : Menu) : MenuItem
+    # onServed(currentTurn : int) : void
+}
+
+enum CustomerState
+class WaitingQueue {
+    - customers : List<Customer>
+    + add(customer : Customer) : void
+    + remove(customer : Customer) : void
+    + isEmpty() : boolean
+}
+
+class Table {
+    - id : int
+    - occupant : Customer
+    + isFree() : boolean
+    + assign(customer : Customer) : void
+    + release() : void
+}
+
+class Menu {
+    - items : List<MenuItem>
+    + standardMenu() : Menu
+    + getItems() : List<MenuItem>
+    + getItem(index : int) : MenuItem
+    + getMostExpensive() : MenuItem
+}
+
+class MenuItem {
+    - name : String
+    - priceCents : int
+    - prepUnits : int
+    + getName() : String
+    + getPriceCents() : int
+    + getPrepUnits() : int
+}
+
+class Order {
+    - id : int
+    - customer : Customer
+    - item : MenuItem
+    - billCents : int
+    - status : OrderStatus
+    + isReady() : boolean
+    + advancePreparation() : boolean
+    + markServed() : void
+    + markPaid() : void
+}
+
+enum OrderStatus
+
+abstract class Staff {
+    - role : String
+    - actedThisTurn : boolean
+    + getRole() : String
+    + hasActedThisTurn() : boolean
+    + startNewTurn() : void
+}
+
+class Waiter
+class Chef
+class Cashier
+
+class Restaurant
+class GameConfig
+class GameController
+class Main {
+    {static} + main(args : String[]) : void
+}
+class ConsoleUI
+class Arrival
+interface CustomerFactory
+class ActionResult
+class Money {
+    {static} + dollars(wholeDollars : int) : int
+    {static} + format(cents : int) : String
+    {static} + percentOff(cents : int, percent : int) : int
+}
+
+Customer <|-- RegularCustomer
+Customer <|-- VIPCustomer
+Customer <|-- CriticCustomer
+
+Staff <|-- Waiter
+Staff <|-- Chef
+Staff <|-- Cashier
+
+Menu "1" *-- "1..*" MenuItem
+WaitingQueue "1" o-- "0..*" Customer
+Customer "0..1" --> "1" Table
+Customer "1" --> "0..1" Order
+Order --> MenuItem
+
+Restaurant *-- Menu
+Restaurant *-- WaitingQueue
+Restaurant "1" *-- "1..*" Table
+Restaurant o-- Customer
+Restaurant --> Waiter
+Restaurant --> Chef
+Restaurant --> Cashier
+
+GameController --> GameConfig
+GameController --> Restaurant
+GameController --> ConsoleUI
+GameConfig --> Arrival
+Arrival --> CustomerFactory
+
+Waiter --> ActionResult
+Chef --> ActionResult
+Cashier --> ActionResult
+Main --> GameConfig
+Main --> GameController
+Main --> ConsoleUI
+
+@enduml
