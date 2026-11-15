@@ -1,4 +1,5 @@
 @startuml Stage2ClassDiagram
+title Stage 2 – Restaurant Rush
 
 top to bottom direction
 skinparam classAttributeIconSize 0
@@ -49,7 +50,16 @@ class CriticCustomer {
     # onServed(currentTurn : int) : void
 }
 
-enum CustomerState
+enum CustomerState {
+    WAITING
+    SEATED
+    ORDERED
+    EATING
+    READY_TO_PAY
+    PAID
+    LEFT
+}
+
 class WaitingQueue {
     - customers : List<Customer>
     + add(customer : Customer) : void
@@ -94,7 +104,13 @@ class Order {
     + markPaid() : void
 }
 
-enum OrderStatus
+enum OrderStatus {
+    IN_PREPARATION
+    READY
+    SERVED
+    PAID
+    CANCELLED
+}
 
 abstract class Staff {
     - role : String
@@ -104,9 +120,19 @@ abstract class Staff {
     + startNewTurn() : void
 }
 
-class Waiter
-class Chef
-class Cashier
+class Waiter {
+    + seat(customer : Customer, table : Table, queue : WaitingQueue) : ActionResult
+    + takeOrder(customer : Customer, menu : Menu, turn : int) : ActionResult
+    + serve(order : Order, turn : int) : ActionResult
+}
+
+class Chef {
+    + prepare(order : Order) : ActionResult
+}
+
+class Cashier {
+    + collectPayment(customers : List<Customer>, turn : int) : Customer
+}
 
 class Restaurant
 class GameConfig
@@ -134,7 +160,7 @@ Staff <|-- Cashier
 
 Menu "1" *-- "1..*" MenuItem
 WaitingQueue "1" o-- "0..*" Customer
-Customer "0..1" --> "1" Table
+Customer "0..1" --> "0..1" Table
 Customer "1" --> "0..1" Order
 Order --> MenuItem
 

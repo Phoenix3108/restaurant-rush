@@ -1,4 +1,5 @@
 @startuml Stage1ClassDiagram
+title Stage 1 – Restaurant Rush
 
 top to bottom direction
 skinparam classAttributeIconSize 0
@@ -23,7 +24,15 @@ class Customer {
     + canPay(turn : int) : boolean
 }
 
-enum CustomerState
+enum CustomerState {
+    WAITING
+    SEATED
+    ORDERED
+    EATING
+    READY_TO_PAY
+    PAID
+    LEFT
+}
 
 class WaitingQueue {
     - customers : List<Customer>
@@ -68,7 +77,13 @@ class Order {
     + markPaid() : void
 }
 
-enum OrderStatus
+enum OrderStatus {
+    IN_PREPARATION
+    READY
+    SERVED
+    PAID
+    CANCELLED
+}
 
 abstract class Staff {
     - role : String
@@ -78,9 +93,20 @@ abstract class Staff {
     + startNewTurn() : void
 }
 
-class Waiter
-class Chef
-class Cashier
+class Waiter {
+    + seat(customer : Customer, table : Table, queue : WaitingQueue) : ActionResult
+    + takeOrder(customer : Customer, menu : Menu, turn : int) : ActionResult
+    + serve(order : Order, turn : int) : ActionResult
+}
+
+class Chef {
+    + prepare(order : Order) : ActionResult
+}
+
+class Cashier {
+    + collectPayment(customers : List<Customer>, turn : int) : Customer
+}
+
 
 class Restaurant
 class GameConfig
