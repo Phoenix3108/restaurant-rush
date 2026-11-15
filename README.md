@@ -10,7 +10,7 @@ SC2002 group project: a turn-based restaurant management game in Java (command l
 | 2 Customer behaviour | [`stage-2`](https://github.com/Phoenix3108/restaurant-rush/tree/stage-2) | VIP and Critic customers |
 | 3 New role and menu policy | [`stage-3`](https://github.com/Phoenix3108/restaurant-rush/tree/stage-3) | Host, ComboMeal, Happy Hour |
 
-To run an earlier stage: `git checkout stage-1` (or `stage-2`), then `./run.sh`. `git checkout main` returns to Stage 3.
+To run an earlier stage: `git checkout stage-1` (or `stage-2`), then `./run.sh` (Windows: `.\run.bat`). `git checkout main` returns to Stage 3.
 
 ## Build and run
 
@@ -37,9 +37,9 @@ java -cp out restaurant.Main
 | Part | Owner | Stage 1 | Stage 2 | Stage 3 |
 |---|---|---|---|---|
 | 1 Menu & Orders | Guru | `MenuItem`, `Menu`, `Order`, `OrderStatus`, `Money` | `Money.percentOff()`, `Menu.getMostExpensive()` | `ComboMeal`, `HappyHour` |
-| 2 Customers | Ram | `Customer`, `CustomerState`, `WaitingQueue` | Abstract `Customer`, `RegularCustomer`, `VIPCustomer` | `recoverSatisfaction()` for Happy Hour |
+| 2 Customers | Ram | `Customer`, `CustomerState`, `WaitingQueue` | Abstract `Customer`, `RegularCustomer`, `VIPCustomer` | Combo choice rule in `chooseMenuItem()`, `recoverSatisfaction()` for Happy Hour, Stage 3 test runs |
 | 3 Staff & Tables | Dylan | `Staff`, `Waiter`, `Chef`, `Cashier`, `ActionResult`, `Table` | `CriticCustomer`, `WaiterTest` | `Host`, shared `Staff.seatFromQueue()`, Happy Hour price in `Waiter.takeOrder()`, `HostTest` |
-| 4 Game loop & CLI | Ani | `GameController`, `Restaurant`, `GameConfig`, `ConsoleUI` | `Arrival`, `CustomerFactory`, VIP/Critic arrivals, type display | Combo choice rule, Happy Hour prompt and recovery, Host step, test runs |
+| 4 Game loop & CLI | Ani | `GameController`, `Restaurant`, `GameConfig`, `ConsoleUI` | `Arrival`, `CustomerFactory`, VIP/Critic arrivals, type display | Happy Hour prompt and recovery step, Host step |
 
 ## Timing rules everyone must follow
 
@@ -146,8 +146,9 @@ Stage 2 runs match only on the `stage-2` tag (`git checkout stage-2`), because S
 
 ### Unit tests
 
-Each test class has its own `main` and prints PASS/FAIL. After `./run.sh` has compiled everything:
+Each test class has its own `main` and prints PASS/FAIL. `./run.sh` compiles the tests along with the game, but `run.bat` compiles only the game, so compile the test you want first (works on both):
 ```
+javac -d out -sourcepath src src/restaurant/customer/CustomerTest.java
 java -cp out restaurant.customer.CustomerTest
 ```
 Same for `menu.MenuTest`, `menu.MoneyTest`, `menu.OrderTest`, `menu.ComboMealTest`, `menu.HappyHourTest`, `staff.WaiterTest` and `staff.HostTest`. At `stage-3` all 125 checks pass.
