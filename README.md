@@ -245,6 +245,9 @@ Full AI conversations on each member's own branch:
 | Member | AI history |
 |---|---|
 | Dylan | [`dylan/ai-history`](https://github.com/Phoenix3108/restaurant-rush/tree/dylan/ai-history/ai-history) (full chat as PDF, with a stage index) |
+| Ram | Did not use AI |
+| Guru | Did not use AI |
+| Ani | Did not use AI |
 
 ## Video
 
