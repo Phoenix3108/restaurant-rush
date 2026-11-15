@@ -238,6 +238,14 @@ Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-2...stage-
 
 Note: each stage's recorded runs replay exactly only on their own tag, because later stages change the inputs on purpose (different customers on turns 4 and 10 in Stage 2; new Happy Hour and Host prompts, and customer #3 ordering a combo, in Stage 3).
 
+## AI history
+
+Full AI conversations on each member's own branch:
+
+| Member | AI history |
+|---|---|
+| Dylan | [`dylan/ai-history`](https://github.com/Phoenix3108/restaurant-rush/tree/dylan/ai-history/ai-history) (full chat as PDF, with a stage index) |
+
 ## Video
 
 Link: https://youtu.be/oHtRYOT1uCg
