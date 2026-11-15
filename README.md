@@ -226,17 +226,6 @@ Compare: https://github.com/Phoenix3108/restaurant-rush/compare/stage-2...stage-
 
 Note: each stage's recorded runs replay exactly only on their own tag, because later stages change the inputs on purpose (different customers on turns 4 and 10 in Stage 2; new Happy Hour and Host prompts, and customer #3 ordering a combo, in Stage 3).
 
-## AI history
-
-Each member's full AI conversations, in order, are on their own branch:
-
-| Member | Branch | Stage 1 | Stage 2 | Stage 3 |
-|---|---|---|---|---|
-| Guru | `BRANCH` | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-1) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-2) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-3) |
-| Ram | `BRANCH` | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-1) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-2) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-3) |
-| Dylan | `BRANCH` | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-1) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-2) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-3) |
-| Ani | `BRANCH` | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-1) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-2) | [link](https://github.com/Phoenix3108/restaurant-rush/tree/BRANCH/ai-history/stage-3) |
-
 ## Video
 
 Link: VIDEO-LINK
